@@ -10,18 +10,17 @@
 
 # 푼 문제 목록
 
+### 2023 - MM - DD
+
+- 맞음
+  - Dynamic Programming / bj_S1 / 30- / O / 정수 삼각형(https://www.acmicpc.net/problem/1932)
+
 ### 2023 - 01- 20
 
 - 틀림
   -  dp / bj_S2 / 120 / X / 가장 긴 증가하는 부분 수열(https://www.acmicpc.net/problem/11053)
 
-- 맞음
-  - /  /  /  /
-
 ### 2023 - 01 - 09
-
-- 틀림
-  -  /  /  /  /
 
 - 맞음
   - dfs & bfs / swea_4 / 30 / O / 미로2(https://swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AV14wL9KAGkCFAYD)
