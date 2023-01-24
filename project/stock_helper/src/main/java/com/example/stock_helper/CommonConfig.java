@@ -9,7 +9,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Configuration
 public class CommonConfig {
-    @Bean
+    @Bean//텔레그램 api 객체는 하나만 만들어서 사용
     TelegramBotsApi makeBots() throws TelegramApiException {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
         telegramBotsApi.registerBot(new EchoBot());

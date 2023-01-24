@@ -1,5 +1,6 @@
 package com.example.stock_helper.telegram;
 import com.example.stock_helper.python.ReadPython;
+import com.example.stock_helper.python.StockFinder;
 import com.example.stock_helper.python.cybos5.GetStockDetailDTO;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -37,16 +38,19 @@ public class EchoBot extends TelegramLongPollingBot {
 
         var msg =  userText;//답장 기본적으로 유저 인풋 그대로
 
-        if(userText.startsWith("이거로시작하면")){
+        if(userText.startsWith("이거로시작하면") && chatId.equals(Chat.STOCK_SEARCH.getChatId())){
             msg = "이 메세지를 출력한다";
+        }else if(userText.startsWith(".") && chatId.equals(Chat.STOCK_SEARCH.getChatId())){//!!로 시작하는 메세지 && STOCK_SEARCH방
+            String order = userText.replace(".", "");
+            msg = getStockMainInfo(order);
         }
 
         if(chatId.equals(Chat.STOCK_SEARCH.getChatId())){//채팅아이디가 이거면
             //이짓을 한다
-            GetStockDetailDTO getStockDetailDTO =ReadPython.readPythonFile(GetStockDetailDTO.class,"cybos5\\getStrockDetail",new String[]{userText});
-            msg = getStockDetailDTO.toString();
+            // msg="★ROOM [STOCK_SEARCH]★\n"+msg;
+            msg = msg;
         }
-        msg+="chatId="+chatId;
+
 
 
         return SendMessage.builder()
@@ -55,7 +59,14 @@ public class EchoBot extends TelegramLongPollingBot {
                 .build();
     }
 
-
+    //주식 메인 정보
+    private String getStockMainInfo(String stockName){
+        try {
+            return StockFinder.getStockDetail(stockName).toString();
+        }catch(RuntimeException e){
+            return "잘못된 주식명: ["+stockName+"]";
+        }
+    }
 
 
 }
