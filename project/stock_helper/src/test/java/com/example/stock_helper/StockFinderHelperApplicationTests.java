@@ -1,5 +1,6 @@
 package com.example.stock_helper;
 
+import com.example.stock_helper.dto.Stock;
 import com.example.stock_helper.python.ReadPython;
 import com.example.stock_helper.python.StockFinder;
 import com.example.stock_helper.python.cybos5.GetStockDetailDTO;
@@ -13,7 +14,7 @@ class StockFinderHelperApplicationTests {
 	@Test
 	public void 주식상세정보가져오기(){
 	    //given
-		String stockName = "국일제지";
+		String stockName = "동화약품";
 
 	    //when
 		GetStockDetailDTO stockDetail = StockFinder.getStockDetail(stockName);
@@ -22,4 +23,14 @@ class StockFinderHelperApplicationTests {
 		Assertions.assertEquals(stockName,stockDetail.getStockName());
 	}
 
+	@Test
+	public void 전체주식리스트생성(){
+	    //given
+
+	    //when
+		Stock[] stocks = StockFinder.getStocks();
+	    // then
+		System.out.println("stocks = " + stocks[0].toString());
+		Assertions.assertEquals("동화약품",stocks[0].getStockName());
+	}
 }

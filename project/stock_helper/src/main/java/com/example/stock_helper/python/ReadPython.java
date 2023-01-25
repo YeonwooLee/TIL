@@ -36,7 +36,7 @@ public class ReadPython {
 
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream(),"UTF-8"));
             String output = in.readLine(); //파이썬 dict 형식으로 출력(print)
-            System.out.println("output = " + output);
+            // System.out.println("output = " + output);
 
             mo = new Gson().fromJson(output, responseType);//파이썬 dict형식 출력을 MyObject형식으로 변경
         } catch (Exception e) {
