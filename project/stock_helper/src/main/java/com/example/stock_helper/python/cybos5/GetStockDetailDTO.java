@@ -24,6 +24,6 @@ public class GetStockDetailDTO {
     @Override
     public String toString(){
         //국일제지 [ -0.95%(00위) / 거래대금 10억(00위) ]
-        return String.format("%s [%.2f%%(%d위) / 거래대금 %d억(%d위)]",stockName,stockRise,riseRank,stockTransactionAmount/100000000,amountRank);
+        return String.format("◎ %s [%.2f%%(%d위) / 거래대금 %d억(%d위)]",stockName,stockRise,riseRank,stockTransactionAmount/100000000,amountRank);
     }
 }

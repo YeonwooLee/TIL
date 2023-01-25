@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 
 class StockFinderHelperApplicationTests {
 	@Test
@@ -28,9 +30,10 @@ class StockFinderHelperApplicationTests {
 	    //given
 
 	    //when
-		Stock[] stocks = StockFinder.getStocks();
+		List<Stock> stocks = StockFinder.getStocks();
 	    // then
-		System.out.println("stocks = " + stocks[0].toString());
-		Assertions.assertEquals("동화약품",stocks[0].getStockName());
+		System.out.println("stocks = " + stocks.get(0).toString());
+		System.out.println("거래대금="+stocks.get(0).getStockTransactionAmount());
+		Assertions.assertEquals("동화약품",stocks.get(0).getStockName());
 	}
 }
