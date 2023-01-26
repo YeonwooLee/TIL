@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#단일 종목에 대해 검색할 때 사용
 import win32com.client
 from allStockDict import makeAllStockDict
 import sys
@@ -57,8 +58,8 @@ def main(args):
 
     # Return the result
     
-    stock_name = args[0]
-
+    stock_name = " ".join(args)
+    # print(stock_name,'test stock')
     result = getDetail(stock_name)
     return result
 

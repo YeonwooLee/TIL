@@ -32,7 +32,7 @@ def InitPlusCheck():
  
     return True
  
- # 수익률 소수점 2자리까지 표기
+ # 수익률 소수점 2자리까지 표기 -- 단순 포맷 변환 함수
 def calRiseRate(today_price, yesterday_price):
     return round(today_price*100/yesterday_price-100,2)
     
@@ -82,15 +82,33 @@ class CpMarketEye:
                 fieldNumber = rqField[j] #j번째 필드값의 요청num
                 fieldName = rqParam[fieldNumber] #요청num의 의미
 
-                if fieldName == '거래대금':
-                    dataInfo['transactionAmount'].append(cur_data)
+                # #이름에 공백 제거
+                # if fieldName == '종목명':
+                #     cur_data=cur_data.replace(" ","")
 
-                tdict[fieldName]=cur_data
+                tdict[fieldName]=cur_data # tdict에 현재 필드 반영
 
+            #버릴종목제거
+            trash=['인버스','블룸버그','ETN','선물','HANARO','KBSTAR','TIGER','KOSEF','KINDEX','ARIRANG','KODEX','SMART','스팩','ACE']
+            continue_flag = False # 트루면 이번 종목 등록 안함
+            for trash_name in trash:
+                if trash_name in tdict['종목명']:
+                    continue_flag = True
+            if continue_flag:
+                del dataInfo['stockInfo'][stockCode] #dict에서 제거(아래에서 dataInfo['stockInfo'][stockCode]= tdict #데이터정보에 투입 안해줘도 빈 {} 들어있어서 key로 제거해줘야함)
+                continue
+            #버릴종목제거끝
+
+            
             riseRate = calRiseRate(tdict['현재가'],tdict['전일종가']) #상승률
             tdict['상승률']=riseRate
             dataInfo['riseRates'].append(riseRate) #전체 상승률 리스트에 삽입
+            dataInfo['transactionAmount'].append(tdict['거래대금'])#전체 거래대금 리스트에 삽입
 
+            # if " " in tdict['종목명']:
+            #     tdict['종목명'] = tdict['종목명'].replace(" ","")
+            # if 'A' in tdict['종목명']:
+            #     print(tdict['종목명'])
             dataInfo['stockInfo'][stockCode]= tdict #데이터정보에 투입
         return True
  
@@ -155,6 +173,19 @@ if __name__ == "__main__":
                 
     res = makeAllStockDict()
     
+    #삭제테스트
+    print(len(res['riseRates']))#얘네 셋이 같아얗마
+    print(len(res['transactionAmount']))#얘네 셋이 같아얗마
+    print(len(res['stockInfo']))#얘네 셋이 같아얗마
+    idx = 0
+    for i in res['stockInfo']:
+        # idx+=1
+        # if(idx>300): #이 수만큼 주식 출력해보는것
+        #     break
+        if " " in res['stockInfo'][i]['종목명']:
+            print(res['stockInfo'][i])
+
+    quit()
     print(res['riseRates'][:10])
     print(res['transactionAmount'][:10])
  
