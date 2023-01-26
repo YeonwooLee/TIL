@@ -5,7 +5,7 @@
 - 성능개선 / STOCK_SEARCH / !!{주식이름} 검색 속도 개선
   - 일정시간마다 전체 주식 리스트 작성하여 갖고있기
 - (기능B)에 거를 종목 키워드 추가
-  - trash=['ETN','선물','HANARO','KBSTAR','TIGER','KOSEF','KINDEX','ARIRANG','KODEX','SMART']
+  - trash=[블룸버그,'ETN','선물','HANARO','KBSTAR','TIGER','KOSEF','KINDEX','ARIRANG','KODEX','SMART']
   - 이거 db랑 연동해서 사용
   - 유저별 거를 리스트 생길거 고려 (유저에 외래키로 거를리스트 idx 넣음 될듯?)
     - 유저 개발할 때 개발하면 되니까 이거 만들 때는 안 해도 될 것 같다는 뜻
