@@ -9,8 +9,13 @@
   - /  /  /  /
 
 # 푼 문제 목록
-
 ### 2023 - MM - DD
+
+- 틀림
+  -  PriorityQueue / pg_3 / 120++ / X / 인사고과(https://school.programmers.co.kr/learn/courses/30/lessons/152995)
+
+
+### 2023 - 01 - 25
 
 - 맞음
   - Dynamic Programming / bj_S1 / 30- / O / 정수 삼각형(https://www.acmicpc.net/problem/1932)
