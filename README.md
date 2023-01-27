@@ -1,3 +1,5 @@
 # TIL
 
-hahaha
+
+1. PriorityQueue Compare
+2. 
