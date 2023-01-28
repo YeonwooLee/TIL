@@ -34,6 +34,7 @@ def InitPlusCheck():
  
  # 수익률 소수점 2자리까지 표기 -- 단순 포맷 변환 함수
 def calRiseRate(today_price, yesterday_price):
+    # print(today_price, yesterday_price,'aa')
     return round(today_price*100/yesterday_price-100,2)
     
 class CpMarketEye:
@@ -93,6 +94,10 @@ class CpMarketEye:
             continue_flag = False # 트루면 이번 종목 등록 안함
             for trash_name in trash:
                 if trash_name in tdict['종목명']:
+                    continue_flag = True
+                if tdict['전일종가']==0:
+                    # print(f"문제가있는주식{tdict['종목명']}")
+                    # tdict['전일종가']=tdict['현재가']
                     continue_flag = True
             if continue_flag:
                 del dataInfo['stockInfo'][stockCode] #dict에서 제거(아래에서 dataInfo['stockInfo'][stockCode]= tdict #데이터정보에 투입 안해줘도 빈 {} 들어있어서 key로 제거해줘야함)
