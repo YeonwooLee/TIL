@@ -44,11 +44,12 @@ class CpMarketEye:
  
  
     def Request(self, codes, dataInfo):
-        rqField = [0,1,4,11,17,23]  # 요청 필드
+        rqField = [0,1,4,5,11,17,23]  # 요청 필드
         rqParam = {
             0:'종목코드',
             1:'시간',
             4:'현재가',
+            5:'시가',
             11:'거래대금',
             17:'종목명',
             23:'전일종가'
@@ -95,10 +96,9 @@ class CpMarketEye:
             for trash_name in trash:
                 if trash_name in tdict['종목명']:
                     continue_flag = True
-                if tdict['전일종가']==0:
-                    # print(f"문제가있는주식{tdict['종목명']}")
-                    # tdict['전일종가']=tdict['현재가']
-                    continue_flag = True
+                if tdict['전일종가']==0: 
+                    tdict['전일종가']=tdict['시가']
+                    # continue_flag = True
             if continue_flag:
                 del dataInfo['stockInfo'][stockCode] #dict에서 제거(아래에서 dataInfo['stockInfo'][stockCode]= tdict #데이터정보에 투입 안해줘도 빈 {} 들어있어서 key로 제거해줘야함)
                 continue
