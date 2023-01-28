@@ -1,0 +1,20 @@
+```git bash
+mkdir project_01 # 프로젝트 폴더 생성
+cd project_01 # 프로젝트 폴더로 이동
+
+# venv_pjt-01이라는 이름의 가상환경 생성
+python -m venv venv_pjt-01 #연습이라 venv_xxx라고 지었고 국룰 네이밍은 venv임
+
+source venv_pjt-01/Scripts/activate # 가상환경 venv_pjt-01 실행
+
+pip install requests # 가상환경에 requests 설치
+
+deactivate # 가상환경 종료
+
+pip list # 모듈 리스트
+pip show request # 여기 환경에 있는 requests 정보(버전 등)
+
+pip freeze  > requirements.txt # 패키지 목록 저장
+pip install -r requirements.txt # requirements.txt에 있는 모듈 설치
+
+```
