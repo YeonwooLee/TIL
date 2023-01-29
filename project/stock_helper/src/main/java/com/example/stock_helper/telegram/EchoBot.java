@@ -80,10 +80,12 @@ public class EchoBot extends TelegramLongPollingBot {
                 result.add(st);
             }
         }
+
+        //이름순정렬
         Collections.sort(result, new Comparator<Stock>(){
             @Override
             public int compare(Stock s1, Stock s2){
-                return s1.getRiseRank()-s2.getRiseRank();
+                return s1.getStockName().compareTo(s2.getStockName());
             }
         });
         return result;
