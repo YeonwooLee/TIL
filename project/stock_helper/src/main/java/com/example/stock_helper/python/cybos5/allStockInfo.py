@@ -38,7 +38,10 @@ def getDetail(stockCode):
     stockRise = stockInfo['상승률']
     stockTransactionAmount = stockInfo['거래대금']
     stockName = stockInfo['종목명']
-    
+    openingPrice = stockInfo['시가']
+    currentPrice = stockInfo['현재가']
+
+
     riseRank = riseRateRank.index(stockRise)
     amountRank = transactionAmountRank.index(stockTransactionAmount)
 
@@ -50,6 +53,9 @@ def getDetail(stockCode):
     result['stockTransactionAmount'] = stockTransactionAmount #거래대금
     result['amountRank'] = amountRank #거래대금순위
     result['searchTime'] = str(stockInfo['시간'])[:2]+":"+str(stockInfo['시간'])[2:]
+    result['openingPrice'] = openingPrice #시가
+    result['currentPrice'] = currentPrice #현재가
+
 
     return result
 

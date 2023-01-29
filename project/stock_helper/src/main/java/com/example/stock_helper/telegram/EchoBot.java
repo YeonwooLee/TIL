@@ -1,8 +1,6 @@
 package com.example.stock_helper.telegram;
-import com.example.stock_helper.dto.Stock;
-import com.example.stock_helper.python.ReadPython;
+import com.example.stock_helper.stock.Stock;
 import com.example.stock_helper.python.StockFinder;
-import com.example.stock_helper.python.cybos5.GetStockDetailDTO;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;

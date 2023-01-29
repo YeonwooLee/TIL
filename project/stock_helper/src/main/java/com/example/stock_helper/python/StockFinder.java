@@ -1,11 +1,9 @@
 package com.example.stock_helper.python;
 
-import com.example.stock_helper.dto.Stock;
+import com.example.stock_helper.stock.Stock;
 import com.example.stock_helper.python.cybos5.GetStockDetailDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
