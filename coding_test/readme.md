@@ -3,13 +3,19 @@
 ### 2023 - MM - DD
 
 - 틀림
-  -  /  /  /  / 
+  -  /  /  /  /
 
 - 맞음
   - /  /  /  /
 
 # 푼 문제 목록
-### 2023 - MM - DD
+
+### 2023 - 01 - 29
+
+- 틀림
+  -  Binary Search / pg_3 / 120++ / X / 표현 가능한 이진트리 (https://school.programmers.co.kr/learn/courses/30/lessons/150367)
+
+### 2023 - 01 - 27
 
 - 틀림
   -  PriorityQueue / pg_3 / 120++ / X / 인사고과(https://school.programmers.co.kr/learn/courses/30/lessons/152995)
