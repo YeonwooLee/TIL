@@ -1,14 +1,11 @@
 package com.example.stock_helper.python;
 
-import com.example.stock_helper.python.cybos5.GetStockDetailDTO;
-import org.assertj.core.internal.Bytes;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
+
 class ReadPythonTest {
     @Test
     public void 파이썬_임시_테스트(){

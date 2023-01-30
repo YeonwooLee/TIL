@@ -1,17 +1,28 @@
 package com.example.stock_helper.python;
 
 import com.example.stock_helper.stock.Stock;
-import com.example.stock_helper.python.cybos5.GetStockDetailDTO;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 import java.util.List;
 
 
+
 @RequiredArgsConstructor
 public class StockFinder {
-    public static GetStockDetailDTO getStockDetail(String stockName){
-        return ReadPython.readPythonFile(GetStockDetailDTO.class,"cybos5\\getStockDetail",new String[]{stockName});
+    //향상된 getStockDetail
+    public static Stock getStockDetail(String stockName){
+        List<Stock> stocks = getStocks(); //전체 주식 리스트
+
+        Stock result = new Stock();
+        for(int i=0;i<stocks.size();i++){
+            Stock curStock = stocks.get(i);
+            if(curStock.getStockName().equals(stockName)){
+                result = curStock;
+                break;
+            }
+        }
+        return result;
     }
 
     public static List<Stock> getStocks(){

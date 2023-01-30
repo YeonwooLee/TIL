@@ -2,7 +2,6 @@ package com.example.stock_helper;
 
 import com.example.stock_helper.stock.Stock;
 import com.example.stock_helper.python.StockFinder;
-import com.example.stock_helper.python.cybos5.GetStockDetailDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -10,13 +9,14 @@ import java.util.List;
 
 
 class StockFinderHelperApplicationTests {
+
 	@Test
-	public void 주식상세정보가져오기(){
-	    //given
+	public void 향상된_주식상세정보가져오기(){
+		//given
 		String stockName = "동화약품";
 
-	    //when
-		GetStockDetailDTO stockDetail = StockFinder.getStockDetail(stockName);
+		//when
+		Stock stockDetail = StockFinder.getStockDetail(stockName);
 		// then
 		System.out.println("stockDetail = " + stockDetail);
 		Assertions.assertEquals(stockName,stockDetail.getStockName());
