@@ -5,6 +5,7 @@ import com.example.stock_helper.telegram.strings.Chat;
 import com.example.stock_helper.telegram.strings.Message;
 import com.example.stock_helper.telegram.strings.MyErrorMsg;
 import com.example.stock_helper.telegram.strings.Order;
+import com.example.stock_helper.util.MyConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -12,11 +13,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 import static com.example.stock_helper.telegram.strings.Message.TODAY_HOT_STOCK_MSG_HEADER;
 
@@ -24,6 +23,7 @@ import static com.example.stock_helper.telegram.strings.Message.TODAY_HOT_STOCK_
 @Component
 public class EchoBot extends TelegramLongPollingBot {
     private final StockFinder stockFinder;
+    private final MyConverter myConverter;
 
     @Override
     public String getBotUsername() {
@@ -64,7 +64,7 @@ public class EchoBot extends TelegramLongPollingBot {
         }// !!float 상승률,int 억
         else if(userText.startsWith(Order.TODAY_HOT_STOCK.getOrderCode())){
             order = userText.replace(Order.TODAY_HOT_STOCK.getOrderCode(),"");//명령에서 명령코드("!!") 제거 -> !!float 상승률,int 억
-            msg = TODAY_HOT_STOCK_MSG_HEADER.getMsgFormat() + listToMsg(getTodayHotStock(order));
+            msg = TODAY_HOT_STOCK_MSG_HEADER.getMsgFormat() + myConverter.listToMsg(getTodayHotStock(order));
 
 
         }
@@ -87,41 +87,8 @@ public class EchoBot extends TelegramLongPollingBot {
         String[] orders = order.split(",");
         int riseRate = Integer.parseInt(orders[0]);//상승률
         long hundredMillion = Long.parseLong(orders[1])*100000000;//몇 억 이상인지 찾는용
-        List<Stock> stocks = stockFinder.getStocks();//
-        List<Stock> result = new ArrayList<>();
-
-        for(Stock st : stocks){
-            if(st.getStockTransactionAmount()>=hundredMillion && st.getStockRise()>=riseRate){
-                result.add(st);
-            }
-        }
-
-        //이름순정렬
-        Collections.sort(result, new Comparator<Stock>(){
-            @Override
-            public int compare(Stock s1, Stock s2){
-                return s1.getStockName().compareTo(s2.getStockName());
-            }
-        });
-
-        List<String> finalResult = new ArrayList<>(); //스트링 포멧 맞추기
-        for(int i=0;i<result.size();i++){//Stock 리스트 순회
-            Stock stock = result.get(i);//현재 주식
-
-            //문자열화 하기 위한 데이터 필드
-            String stockName = stock.getStockName();
-            float stockRise = stock.getStockRise();
-            int riseRank = stock.getRiseRank();
-            long stockTransactionAmount = stock.getStockTransactionAmount() / 100000000;
-            int amountRank = stock.getAmountRank();
-
-            //문자열 포멧팅
-            String strStock = String.format("◎ %s \n[%.2f%%(%d위) / 거래대금 %d억(%d위)]\n",stockName,stockRise,riseRank,stockTransactionAmount,amountRank);
-
-            //최종결과리스트에 삽입
-            finalResult.add(strStock);
-        }
-        return finalResult;
+        List<String> todayHotStocks = stockFinder.makeTodayHotStock(riseRate,hundredMillion);
+        return todayHotStocks;
     }
 
     //주식 메인 정보
@@ -144,12 +111,7 @@ public class EchoBot extends TelegramLongPollingBot {
             return MyErrorMsg.DISCONNECT_MAYBE.getMsgFormat();
         }
     }
-    private <T> String listToMsg(List<T> list) {
-        String result = list.stream()
-                .map(Object::toString)
-                .collect(Collectors.joining("\n"));
-        return result;
-    }
+
 
 
 }

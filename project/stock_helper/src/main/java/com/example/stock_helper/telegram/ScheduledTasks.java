@@ -2,6 +2,9 @@ package com.example.stock_helper.telegram;
 
 
 import com.example.stock_helper.python.StockFinder;
+import com.example.stock_helper.telegram.strings.Message;
+import com.example.stock_helper.telegram.strings.NumberSetting;
+import com.example.stock_helper.util.MyConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -14,8 +17,12 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static com.example.stock_helper.telegram.strings.Chat.STOCK_SEARCH;
+import static com.example.stock_helper.telegram.strings.Message.TODAY_HOT_STOCK_MSG_HEADER_AUTO;
+import static com.example.stock_helper.telegram.strings.NumberSetting.HUNDRED_MILLION_FOR_SCHEDULE;
+import static com.example.stock_helper.telegram.strings.NumberSetting.RISE_RATE_FOR_SCHEDULE;
 
 @Component
 @RequiredArgsConstructor
@@ -24,6 +31,7 @@ public class ScheduledTasks {
     private final StockFinder stockFinder;
     private final TelegramBotsApi telegramBotsApi;
     private final EchoBot echoBot;
+    private final MyConverter myConverter;
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
@@ -33,12 +41,21 @@ public class ScheduledTasks {
         log.info("주식리스트 갱신 {}", dateFormat.format(new Date()));
         //TODO db에 주식 리스트 갱신 현재시간+주식코드 = pk, 주식명, 현재가, 등수 등
     }
-    @Scheduled(cron = "*/3 * * * * *") //1시 17시의 55분에 10초마다 발생
+    @Scheduled(cron = "0 0 12,18 * * *") //1시 17시의 55분에 10초마다 발생
     public void test() throws TelegramApiException {
         // stockFinder.setTempStock(stockFinder.getStocks());
-        log.info("temp");
+        log.info("자동생성 리스트");
+        List<String> stockStrings = stockFinder.makeTodayHotStock(RISE_RATE_FOR_SCHEDULE.getNum(), HUNDRED_MILLION_FOR_SCHEDULE.getNum());
+        String timeText = dateFormat.format(new Date())+Message.ALERT_SOMETHING.getMsgFormat();//시간 + 입니다.
+
+        String todayHotStockMsgHeaderAuto = String.format(//<오늘의 자동알림 HOT %d%, %d억>
+                TODAY_HOT_STOCK_MSG_HEADER_AUTO.getMsgFormat(),
+                RISE_RATE_FOR_SCHEDULE.getNum(),HUNDRED_MILLION_FOR_SCHEDULE.getNum()
+        );
+
+        String listToMsg = myConverter.listToMsg(stockStrings);
         echoBot.execute(SendMessage.builder()
-                .text("sdfsd")
+                .text(timeText + todayHotStockMsgHeaderAuto + listToMsg)//리스트를 \n 구분 스트링으로
                 .chatId(STOCK_SEARCH.getChatId())
                 .build());
 
