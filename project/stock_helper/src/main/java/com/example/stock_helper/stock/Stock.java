@@ -27,10 +27,7 @@ public class Stock {
     
     private String searchTime;//검색 시간(추정)
 
-    // @Override
-    // public String toString(){
-    //     return String.format("$Hot$ %s [%.2f%%(%d위) / 거래대금 %d억(%d위)]",stockName,stockRise,riseRank,stockTransactionAmount/100000000,amountRank);
-    // }
+
     public String testString(){
         StringBuilder sb = new StringBuilder();
         sb.append("종목명:"+stockName+"\n");

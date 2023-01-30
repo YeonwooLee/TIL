@@ -1,18 +1,22 @@
 package com.example.stock_helper.python;
 
+import com.example.stock_helper.stock.Stock;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.UnsupportedEncodingException;
 
 class ReadPythonTest {
+    @Autowired
+    ReadPython readPython;
     @Test
     public void 파이썬_임시_테스트(){
         //given
 
         //when
-        Integer getStockDetailDTO = ReadPython.readPythonFile(Integer.class, "cybos5\\temp", new String[]{"111123123"});
+        Integer getStockDetailDTO = readPython.readPythonFile(Integer.class, "cybos5\\temp", new String[]{"111123123"});
         // then
         System.out.println("getStockDetailDTO = " + getStockDetailDTO);
 
@@ -24,7 +28,7 @@ class ReadPythonTest {
         String findStockName = "삼성전자";
 
         //when
-        GetStockDetailDTO getStockDetailDTO = ReadPython.readPythonFile(GetStockDetailDTO.class, "cybos5\\getStockDetail", new String[]{findStockName});
+        Stock getStockDetailDTO = readPython.readPythonFile(Stock.class, "cybos5\\getStockDetail", new String[]{findStockName});
         // then
         System.out.println("getStockDetailDTO = " + getStockDetailDTO);
         String temp = getStockDetailDTO.getStockName();

@@ -5,6 +5,8 @@ import com.example.stock_helper.telegram.strings.Chat;
 import com.example.stock_helper.telegram.strings.Message;
 import com.example.stock_helper.telegram.strings.MyErrorMsg;
 import com.example.stock_helper.telegram.strings.Order;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -18,7 +20,11 @@ import java.util.stream.Collectors;
 
 import static com.example.stock_helper.telegram.strings.Message.TODAY_HOT_STOCK_MSG_HEADER;
 
+@RequiredArgsConstructor
+@Component
 public class EchoBot extends TelegramLongPollingBot {
+    private final StockFinder stockFinder;
+
     @Override
     public String getBotUsername() {
         return StockEye2Bot.BOT_USER_NAME;
@@ -81,7 +87,7 @@ public class EchoBot extends TelegramLongPollingBot {
         String[] orders = order.split(",");
         int riseRate = Integer.parseInt(orders[0]);//상승률
         long hundredMillion = Long.parseLong(orders[1])*100000000;//몇 억 이상인지 찾는용
-        List<Stock> stocks = StockFinder.getStocks();//
+        List<Stock> stocks = stockFinder.getStocks();//
         List<Stock> result = new ArrayList<>();
 
         for(Stock st : stocks){
@@ -122,7 +128,7 @@ public class EchoBot extends TelegramLongPollingBot {
     private String stockDetailToString(String stockName){
         String result = "임시";
         try {
-            Stock stock = StockFinder.getStockDetail(stockName);
+            Stock stock = stockFinder.getStockDetail(stockName);
 
             float stockRise = stock.getStockRise();
             int riseRank = stock.getRiseRank();

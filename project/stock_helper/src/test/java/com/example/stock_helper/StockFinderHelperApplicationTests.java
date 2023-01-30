@@ -4,11 +4,15 @@ import com.example.stock_helper.stock.Stock;
 import com.example.stock_helper.python.StockFinder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-
+@SpringBootTest
 class StockFinderHelperApplicationTests {
+	@Autowired
+	StockFinder stockFinder;
 
 	@Test
 	public void 향상된_주식상세정보가져오기(){
@@ -16,7 +20,7 @@ class StockFinderHelperApplicationTests {
 		String stockName = "동화약품";
 
 		//when
-		Stock stockDetail = StockFinder.getStockDetail(stockName);
+		Stock stockDetail = stockFinder.getStockDetail(stockName);
 		// then
 		System.out.println("stockDetail = " + stockDetail);
 		Assertions.assertEquals(stockName,stockDetail.getStockName());
@@ -27,7 +31,7 @@ class StockFinderHelperApplicationTests {
 	    //given
 
 	    //when
-		List<Stock> stocks = StockFinder.getStocks();
+		List<Stock> stocks = stockFinder.getStocks();
 	    // then
 		System.out.println("stocks = " + stocks.get(0).toString());
 		System.out.println("거래대금="+stocks.get(0).getStockTransactionAmount());

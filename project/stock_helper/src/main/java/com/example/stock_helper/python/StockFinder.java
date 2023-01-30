@@ -2,6 +2,7 @@ package com.example.stock_helper.python;
 
 import com.example.stock_helper.stock.Stock;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -12,10 +13,13 @@ import static com.example.stock_helper.telegram.strings.MyErrorMsg.NO_STOCK_NAME
 
 @Component
 @RequiredArgsConstructor
+@Setter
 public class StockFinder {
+    private final ReadPython readPython;
+
     //향상된 getStockDetail
-    public static Stock getStockDetail(String stockName){
-        List<Stock> stocks = getStocks(); //전체 주식 리스트
+    public Stock getStockDetail(String stockName){
+        List<Stock> stocks = getStocks(); //지금 따끈하게 구어오는 전체 주식 리스트
 
         Stock result = new Stock();
         boolean findFlag = false;//없는 주식 체크용
@@ -32,7 +36,8 @@ public class StockFinder {
         return result;
     }
 
-    public static List<Stock> getStocks(){
-        return Arrays.asList(ReadPython.readPythonFile(Stock[].class,"cybos5\\allStockInfo",new String[]{""}));
+    public List<Stock> getStocks(){
+        //TODO 이걸 매번 파이썬 켜서 api 연결해서 가져올 생각하지말고 ScheduledTasks 이용해서 db에 stock리스트 저장해둘 것
+        return Arrays.asList(readPython.readPythonFile(Stock[].class,"cybos5\\allStockInfo",new String[]{""}));
     }
 }

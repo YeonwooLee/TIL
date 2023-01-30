@@ -11,11 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
+@Component
 public class ReadPython {
-
-
-
-    public static <T> T readPythonFile(Class<T> responseType,String pythonProgramName, String[] args) {
+    public <T> T readPythonFile(Class<T> responseType,String pythonProgramName, String[] args) {
         //Group = com.mysite
         //Artifact = sbb
         //내부 패키지 = python
