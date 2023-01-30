@@ -41,8 +41,8 @@ public class ScheduledTasks {
         log.info("주식리스트 갱신 {}", dateFormat.format(new Date()));
         //TODO db에 주식 리스트 갱신 현재시간+주식코드 = pk, 주식명, 현재가, 등수 등
     }
-    @Scheduled(cron = "0 0 12,18 * * *") //1시 17시의 55분에 10초마다 발생
-    public void test() throws TelegramApiException {
+    @Scheduled(cron = "0 0 12,18 * * *") //0초 0분 12시, 18시 매일 매월 매년
+    public void autoHotAlert() throws TelegramApiException {//오늘의 HOT 주식 자동 알림
         // stockFinder.setTempStock(stockFinder.getStocks());
         log.info("자동생성 리스트");
         List<String> stockStrings = stockFinder.makeTodayHotStock(RISE_RATE_FOR_SCHEDULE.getNum(), HUNDRED_MILLION_FOR_SCHEDULE.getNum());

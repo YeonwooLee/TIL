@@ -19,7 +19,36 @@
 - ### [기능C]상승률 n% 거래대금 m억 이상인 종목 찾기
   
   - (기능B) 활용
+  
   - 2023-01-30: 상승률순 정렬에서 이름순 정렬로 변경
+  
+  - 특정 시간마다 알려줌
+  
+    - 코드(특징 = n% m억에 대해 상수 제거)
+  
+      ```java
+          @Scheduled(cron = "0 0 12,18 * * *") //0초 0분 12시, 18시 매일 매월 매년
+          public void autoHotAlert() throws TelegramApiException {//오늘의 HOT 주식 자동 알림 
+              // stockFinder.setTempStock(stockFinder.getStocks());
+              log.info("자동생성 리스트");
+              List<String> stockStrings = stockFinder.makeTodayHotStock(RISE_RATE_FOR_SCHEDULE.getNum(), HUNDRED_MILLION_FOR_SCHEDULE.getNum());
+              String timeText = dateFormat.format(new Date())+Message.ALERT_SOMETHING.getMsgFormat();//시간 + 입니다.
+      
+              String todayHotStockMsgHeaderAuto = String.format(//<오늘의 자동알림 HOT %d%, %d억>
+                      TODAY_HOT_STOCK_MSG_HEADER_AUTO.getMsgFormat(),
+                      RISE_RATE_FOR_SCHEDULE.getNum(),HUNDRED_MILLION_FOR_SCHEDULE.getNum()
+              );
+      
+              String listToMsg = myConverter.listToMsg(stockStrings);
+              echoBot.execute(SendMessage.builder()
+                      .text(timeText + todayHotStockMsgHeaderAuto + listToMsg)//리스트를 \n 구분 스트링으로
+                      .chatId(STOCK_SEARCH.getChatId())
+                      .build());
+      
+          }
+      ```
+  
+      
 
 * ### [기능A]주식정보검색: input: 주식이름 —> output: 전일대비, 거래대금
   
@@ -28,45 +57,49 @@
   * (기능A)에 없는 종목 검색시 예외처리
   * ~~ (기능A)에 여러종목이 검색되는 이름 입력시 맨 처음 등장하는 주식에 대한 정보 리턴 처리~~ 
     * 웹크롤링에서 api사용으로 바꾸면서 현재 사용하지 않음
+
+# 시스템 개선
+
+## 문자열 모아서 관리
+
+![image-20230131003306589](..\..\images\image-20230131003306589.png)
+
+* 문자열 관리 예시(에러관련)
+
+  ```java
+    package com.example.stock_helper.telegram.strings;
+    
+    import lombok.Getter;
+    
+    @Getter
+    public enum MyErrorMsg {
+        NO_STOCK_NAME_ERROR("존재하지 않는 주식명: [%s]"),
+        DISCONNECT_MAYBE("연결 끊김 의심");
+    
+        MyErrorMsg(String msgFormat){
+            this.msgFormat = msgFormat;
+        }
+        private String msgFormat;
+    }
+  ```
+
+* 오류 발생시 
+
+  ```java
+    catch(RuntimeException e){//에러메시지를 하드코딩하는 대신 enum을 호출하여 사용
+                if (e.getMessage().equals(String.format(MyErrorMsg.NO_STOCK_NAME_ERROR.getMsgFormat(),stockName))){
+                    return String.format(Message.NOT_EXIST_STOCK_NAME.getMsgFormat(),stockName);
+                }
+                return MyErrorMsg.DISCONNECT_MAYBE.getMsgFormat();
+            }
+  ```
+
   
-* ### 시스템 개선
-
-  * 문자열 모아서 관리
-
-    * ![image-20230131003306589](..\..\images\image-20230131003306589.png)
-
-    * 문자열 관리 예시(에러관련)
 
 
-      ```java
-      package com.example.stock_helper.telegram.strings;
-      
-      import lombok.Getter;
-      
-      @Getter
-      public enum MyErrorMsg {
-          NO_STOCK_NAME_ERROR("존재하지 않는 주식명: [%s]"),
-          DISCONNECT_MAYBE("연결 끊김 의심");
-      
-          MyErrorMsg(String msgFormat){
-              this.msgFormat = msgFormat;
-          }
-          private String msgFormat;
-      }
-      ```
 
-    * 오류 발생시 
 
-      ```java
-      catch(RuntimeException e){//에러메시지를 하드코딩하는 대신 enum을 호출하여 사용
-                  if (e.getMessage().equals(String.format(MyErrorMsg.NO_STOCK_NAME_ERROR.getMsgFormat(),stockName))){
-                      return String.format(Message.NOT_EXIST_STOCK_NAME.getMsgFormat(),stockName);
-                  }
-                  return MyErrorMsg.DISCONNECT_MAYBE.getMsgFormat();
-              }
-      ```
-
-      
+​      
 
 
 
