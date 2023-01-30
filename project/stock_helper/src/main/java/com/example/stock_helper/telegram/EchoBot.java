@@ -1,6 +1,7 @@
 package com.example.stock_helper.telegram;
 import com.example.stock_helper.stock.Stock;
 import com.example.stock_helper.python.StockFinder;
+import com.example.stock_helper.telegram.strings.Chat;
 import com.example.stock_helper.telegram.strings.Message;
 import com.example.stock_helper.telegram.strings.MyErrorMsg;
 import com.example.stock_helper.telegram.strings.Order;
@@ -131,8 +132,6 @@ public class EchoBot extends TelegramLongPollingBot {
             result = String.format("◎ %s [%.2f%%(%d위) / 거래대금 %d억(%d위)]",stockName,stockRise,riseRank,stockTransactionAmount,amountRank);
             return result;
         }catch(RuntimeException e){
-            System.out.println("e.getMessage() = " + e.getMessage());
-            System.out.println("String.format(MyErrorMsg.NO_STOCK_NAME_ERROR.getMsgFormat(),stockName)) = " + String.format(MyErrorMsg.NO_STOCK_NAME_ERROR.getMsgFormat(),stockName));
             if (e.getMessage().equals(String.format(MyErrorMsg.NO_STOCK_NAME_ERROR.getMsgFormat(),stockName))){
                 return String.format(Message.NOT_EXIST_STOCK_NAME.getMsgFormat(),stockName);
             }

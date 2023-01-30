@@ -31,6 +31,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.telegram:telegrambots:6.4.0'
 	implementation 'com.google.code.gson:gson:2.8.6'
+	testImplementation 'org.awaitility:awaitility:3.1.2'
 }
 
 tasks.named('test') {

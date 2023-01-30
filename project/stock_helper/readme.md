@@ -11,20 +11,63 @@
 
 # 구현이 완료된 기능 목록
 
-- [기능B]StockFinder.getStocks() 구현 -- 주식 전체 종목 정보 리스트 만드는 기능
+- ### [기능B]StockFinder.getStocks() 구현 -- 주식 전체 종목 정보 리스트 만드는 기능
+  
   - (기능B)에 거를 종목 키워드 추가(2023.01.26)
     - trash=[인버스,블룸버그,'ETN','선물','HANARO','KBSTAR','TIGER','KOSEF','KINDEX','ARIRANG','KODEX','SMART']
-
-- [기능C]상승률 n% 거래대금 m억 이상인 종목 찾기
+  
+- ### [기능C]상승률 n% 거래대금 m억 이상인 종목 찾기
+  
   - (기능B) 활용
   - 2023-01-30: 상승률순 정렬에서 이름순 정렬로 변경
 
-* [기능A]주식정보검색: input: 주식이름 —> output: 전일대비, 거래대금
+* ### [기능A]주식정보검색: input: 주식이름 —> output: 전일대비, 거래대금
+  
   * (기능A)에 {오늘의 상승률 순위} 추가
   * (기능A)에 {오늘의 거래대금 순위} 추가
   * (기능A)에 없는 종목 검색시 예외처리
   * ~~ (기능A)에 여러종목이 검색되는 이름 입력시 맨 처음 등장하는 주식에 대한 정보 리턴 처리~~ 
     * 웹크롤링에서 api사용으로 바꾸면서 현재 사용하지 않음
+  
+* ### 시스템 개선
+
+  * 문자열 모아서 관리
+
+    * ![image-20230131003306589](..\..\images\image-20230131003306589.png)
+
+    * 문자열 관리 예시(에러관련)
+
+
+      ```java
+      package com.example.stock_helper.telegram.strings;
+      
+      import lombok.Getter;
+      
+      @Getter
+      public enum MyErrorMsg {
+          NO_STOCK_NAME_ERROR("존재하지 않는 주식명: [%s]"),
+          DISCONNECT_MAYBE("연결 끊김 의심");
+      
+          MyErrorMsg(String msgFormat){
+              this.msgFormat = msgFormat;
+          }
+          private String msgFormat;
+      }
+      ```
+
+    * 오류 발생시 
+
+      ```java
+      catch(RuntimeException e){//에러메시지를 하드코딩하는 대신 enum을 호출하여 사용
+                  if (e.getMessage().equals(String.format(MyErrorMsg.NO_STOCK_NAME_ERROR.getMsgFormat(),stockName))){
+                      return String.format(Message.NOT_EXIST_STOCK_NAME.getMsgFormat(),stockName);
+                  }
+                  return MyErrorMsg.DISCONNECT_MAYBE.getMsgFormat();
+              }
+      ```
+
+      
+
 
 
 
