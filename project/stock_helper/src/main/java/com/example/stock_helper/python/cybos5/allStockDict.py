@@ -1,8 +1,17 @@
+# cass CpMarketEye를 이용해 원시 데이터 작성함.
+# 호출되는 용도로 사용
+'''
+self.dataInfo = {
+    'riseRates':[상승률 리스트], # 차후 인덱스로 개별 주식의 상승률 순위 구함
+    'transactionAmount':[거래디금 리스트],# 차후 인덱스로 개별 주식의 거래대금 순위 구함
+    'stockInfo':{주식: 주식종목} #차후 이부분이 리스트화 되어 리턴됨
+    }
+'''
 import sys
 
 import win32com.client
 import ctypes
- 
+
 ################################################
 # PLUS 공통 OBJECT
 g_objCodeMgr = win32com.client.Dispatch('CpUtil.CpCodeMgr')

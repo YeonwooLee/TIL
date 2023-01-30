@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#자바에 전달되는 전체 종목 핵심 정보의 리스트 반환할 때 사용
 import win32com.client
 from allStockDict import makeAllStockDict
 import sys
@@ -26,6 +27,7 @@ def codeToName(code):
     name = objCpStockCode.CodeToName(code)
     return name
 
+#한글키로 되어있는것 영어로 변경
 def getDetail(stockCode):
     riseRateRank = allStockDict['riseRates'] #상승순위
     transactionAmountRank = allStockDict['transactionAmount'] #거래대금순위
@@ -40,10 +42,10 @@ def getDetail(stockCode):
     stockName = stockInfo['종목명']
     openingPrice = stockInfo['시가']
     currentPrice = stockInfo['현재가']
+    
 
-
-    riseRank = riseRateRank.index(stockRise)
-    amountRank = transactionAmountRank.index(stockTransactionAmount)
+    riseRank = riseRateRank.index(stockRise)#인덱스를 통해 상승률 순위를 정한다
+    amountRank = transactionAmountRank.index(stockTransactionAmount)#인덱스를 통해 거래대금 순위를 정한다
 
     result = {}
     result['stockCode'] = stockCode #종목코드

@@ -6,6 +6,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class Stock {
     // @SerializedName("stock_name") //파이썬 리턴(dict)에서는 key가 stock_name임
     private String stockName;//종목명
@@ -26,10 +27,10 @@ public class Stock {
     
     private String searchTime;//검색 시간(추정)
 
-    @Override
-    public String toString(){
-        return String.format("$Hot$ %s [%.2f%%(%d위) / 거래대금 %d억(%d위)]",stockName,stockRise,riseRank,stockTransactionAmount/100000000,amountRank);
-    }
+    // @Override
+    // public String toString(){
+    //     return String.format("$Hot$ %s [%.2f%%(%d위) / 거래대금 %d억(%d위)]",stockName,stockRise,riseRank,stockTransactionAmount/100000000,amountRank);
+    // }
     public String testString(){
         StringBuilder sb = new StringBuilder();
         sb.append("종목명:"+stockName+"\n");

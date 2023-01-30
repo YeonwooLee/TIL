@@ -1,6 +1,9 @@
 package com.example.stock_helper.telegram;
 import com.example.stock_helper.stock.Stock;
 import com.example.stock_helper.python.StockFinder;
+import com.example.stock_helper.telegram.strings.Message;
+import com.example.stock_helper.telegram.strings.MyErrorMsg;
+import com.example.stock_helper.telegram.strings.Order;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -12,7 +15,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.stock_helper.telegram.Message.TODAY_HOT_STOCK_MSG_HEADER;
+import static com.example.stock_helper.telegram.strings.Message.TODAY_HOT_STOCK_MSG_HEADER;
 
 public class EchoBot extends TelegramLongPollingBot {
     @Override
@@ -128,7 +131,12 @@ public class EchoBot extends TelegramLongPollingBot {
             result = String.format("◎ %s [%.2f%%(%d위) / 거래대금 %d억(%d위)]",stockName,stockRise,riseRank,stockTransactionAmount,amountRank);
             return result;
         }catch(RuntimeException e){
-            return "잘못된 주식명: ["+stockName+"]";
+            System.out.println("e.getMessage() = " + e.getMessage());
+            System.out.println("String.format(MyErrorMsg.NO_STOCK_NAME_ERROR.getMsgFormat(),stockName)) = " + String.format(MyErrorMsg.NO_STOCK_NAME_ERROR.getMsgFormat(),stockName));
+            if (e.getMessage().equals(String.format(MyErrorMsg.NO_STOCK_NAME_ERROR.getMsgFormat(),stockName))){
+                return String.format(Message.NOT_EXIST_STOCK_NAME.getMsgFormat(),stockName);
+            }
+            return MyErrorMsg.DISCONNECT_MAYBE.getMsgFormat();
         }
     }
     private <T> String listToMsg(List<T> list) {

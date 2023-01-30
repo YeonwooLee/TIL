@@ -1,4 +1,4 @@
-package com.example.stock_helper.telegram;
+package com.example.stock_helper.telegram.strings;
 
 import lombok.Getter;
 
