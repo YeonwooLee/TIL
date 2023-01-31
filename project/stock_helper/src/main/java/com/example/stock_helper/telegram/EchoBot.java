@@ -40,7 +40,7 @@ public class EchoBot extends TelegramLongPollingBot {
 
         if (update.hasMessage() && update.getMessage().hasText()) {
             var mensagem = responder(update);
-            System.out.println("받은 메시지 정보 = " + mensagem);
+            // System.out.println("받은 메시지 정보 = " + mensagem);
             try {
                 execute(mensagem);
             } catch (TelegramApiException e) {

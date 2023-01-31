@@ -15,7 +15,7 @@ class StockFinderHelperApplicationTests {
 	StockFinder stockFinder;
 
 	@Test
-	public void 향상된_주식상세정보가져오기(){
+	public void 주식상세정보가져오기(){
 		//given
 		String stockName = "동화약품";
 
@@ -33,10 +33,10 @@ class StockFinderHelperApplicationTests {
 	    //when
 		List<Stock> stocks = stockFinder.getStocks();
 	    // then
-		System.out.println("stocks = " + stocks.get(0).toString());
-		System.out.println("거래대금="+stocks.get(0).getStockTransactionAmount());
+		for(Stock stock : stocks){
+			if(stock.getStockName().length()>=8)System.out.println("stock = " + stock);
 
-		System.out.println(stocks.get(0).testString());
+		}
 		Assertions.assertEquals("동화약품",stocks.get(0).getStockName());
 	}
 }
