@@ -33,10 +33,7 @@ class StockFinderHelperApplicationTests {
 	    //when
 		List<Stock> stocks = stockFinder.getStocks();
 	    // then
-		for(Stock stock : stocks){
-			if(stock.getStockName().length()>=8)System.out.println("stock = " + stock);
 
-		}
 		Assertions.assertEquals("동화약품",stocks.get(0).getStockName());
 	}
 }

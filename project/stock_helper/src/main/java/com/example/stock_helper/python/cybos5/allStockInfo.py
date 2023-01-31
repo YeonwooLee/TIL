@@ -83,7 +83,16 @@ if __name__ == "__main__":
     
     # result = main(sys.argv[1:])
     result = main()
+    
+    ###테스트 공간 차후 삭제 ###
+    for i in range(len(result)):
+        result[i]['stockName'] = codeToName(result[i]['stockCode'])
+    
+    ##테스트 공간 끝##
+
+
     result = json.dumps(result)
     print(result)
 
 
+    
