@@ -11,7 +11,7 @@ import sys
 
 import win32com.client
 import ctypes
-
+from const import rqParam
 ################################################
 # PLUS 공통 OBJECT
 g_objCodeMgr = win32com.client.Dispatch('CpUtil.CpCodeMgr')
@@ -53,17 +53,7 @@ class CpMarketEye:
  
  
     def Request(self, codes, dataInfo):
-        rqField = [0,1,4,5,11,17,23]  # 요청 필드
-        rqParam = {
-            0:'종목코드',
-            1:'시간',
-            4:'현재가',
-            5:'시가',
-            11:'거래대금',
-            17:'종목명',
-            23:'전일종가'
-        }
- 
+        rqField = list(rqParam.keys())  # 요청 필드
         self.objRq.SetInputValue(0, rqField)  # 요청 필드
         self.objRq.SetInputValue(1, codes)  # 종목코드 or 종목코드 리스트
         self.objRq.BlockRequest()
@@ -78,7 +68,7 @@ class CpMarketEye:
         # print(cnt,'cnt')
  
         for i in range(cnt):
-            codeIdx = list(filter(lambda x: rqParam[x]=='종목코드',rqParam.keys()))[0] #밸류가 종목코드인 key 가져옴
+            codeIdx = list(filter(lambda x: rqParam[x]['paramKR']=='종목코드',rqParam.keys()))[0] #밸류가 종목코드인 key 가져옴
             
             stockCode = self.objRq.GetDataValue(codeIdx, i)  # 코드
             
@@ -91,11 +81,8 @@ class CpMarketEye:
                 cur_data = self.objRq.GetDataValue(j,i)#i코드의 j번째필드값
 
                 fieldNumber = rqField[j] #j번째 필드값의 요청num
-                fieldName = rqParam[fieldNumber] #요청num의 의미
+                fieldName = rqParam[fieldNumber]['paramKR'] #요청num의 의미
 
-                # #이름에 공백 제거
-                # if fieldName == '종목명':
-                #     cur_data=cur_data.replace(" ","")
 
                 tdict[fieldName]=cur_data # tdict에 현재 필드 반영
 
@@ -119,10 +106,6 @@ class CpMarketEye:
             dataInfo['riseRates'].append(riseRate) #전체 상승률 리스트에 삽입
             dataInfo['transactionAmount'].append(tdict['거래대금'])#전체 거래대금 리스트에 삽입
 
-            # if " " in tdict['종목명']:
-            #     tdict['종목명'] = tdict['종목명'].replace(" ","")
-            # if 'A' in tdict['종목명']:
-            #     print(tdict['종목명'])
             dataInfo['stockInfo'][stockCode]= tdict #데이터정보에 투입
         return True
  
@@ -136,7 +119,7 @@ class CMarketTotal():
  
  
     def getAllMarketTotal(self):
-        #전체 종목 리스트 생성
+        #전체 종목 코드 리스트 생성
         codeList = g_objCodeMgr.GetStockListByMarket(1)  # 거래소
         codeList2 = g_objCodeMgr.GetStockListByMarket(2)  # 코스닥
         
@@ -161,15 +144,7 @@ class CMarketTotal():
         self.dataInfo['transactionAmount'].sort(reverse=True)
  
     def getMarketTotal(self):
- 
-        # 시가총액 순으로 소팅
-        # data2 = sorted(self.dataInfo.items(), key=lambda x: x[1][1], reverse=True)
         allStockDict = self.dataInfo
-        # idx =0
-        # for key in allStockDict.keys():
-        #     print(key,">>",allStockDict[key]) if idx<10 else None
-        #     idx+=1
-
         return allStockDict
         
 
@@ -193,10 +168,7 @@ if __name__ == "__main__":
     print(len(res['stockInfo']))#얘네 셋이 같아얗마
     idx = 0
     for i in res['stockInfo']:
-        # idx+=1
-        # if(idx>300): #이 수만큼 주식 출력해보는것
-        #     break
-        if " " in res['stockInfo'][i]['종목명']:
+        if "아모레G" in res['stockInfo'][i]['종목명']:
             print(res['stockInfo'][i])
 
     quit()
