@@ -21,4 +21,6 @@ rqParam = {
     23:{'paramKR':'전일종가', 
     'paramENG':'currentPrice'},
     
+    67:{'paramKR':'per', 
+    'paramENG':'per'},
 }

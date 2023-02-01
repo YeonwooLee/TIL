@@ -31,35 +31,40 @@ def codeToName(code):
 #kEY한글 -> KEY영어로 변경
 #상승률 및 거래대금 순위 책정
 def getDetail(stockCode):
-    riseRateRank = allStockDict['riseRates'] #상승순위
-    transactionAmountRank = allStockDict['transactionAmount'] #거래대금순위
-    stocks = allStockDict['stockInfo']
-
- 
-    stockInfo = stocks[stockCode]
-    # print(stockInfo) #{'종목코드': 'A005930', '시간': 1600, '현재가': 61800, '거래대금': 595372610000, '종목명': '삼성전자', '전일종가': 61500, '상승률': 0.49}
     
- 
-
-
-    riseRank = riseRateRank.index(stockInfo['상승률'])#인덱스를 통해 상승률 순위를 정한다
-    amountRank = transactionAmountRank.index(stockInfo['거래대금'])#인덱스를 통해 거래대금 순위를 정한다
+    stocks = allStockDict['stockInfo'] 
+    stockInfo = stocks[stockCode]
 
     result = {}
+    #기본필드
     for key in rqParam:
         paramEng = rqParam[key]['paramENG']
         paramKR = rqParam[key]['paramKR']
 
         result[paramEng] = stockInfo[paramKR]
-    # result['stockCode'] = stockCode #종목코드
-    # result['stockName'] = stockInfo['종목명']
+
+    #조정필요한 필드
     result['stockRise'] = stockInfo['상승률']
-    result['riseRank'] = riseRank #상승순위
-    # result['stockTransactionAmount'] = stockInfo['거래대금']
-    result['amountRank'] = amountRank #거래대금순위
     result['searchTime'] = str(stockInfo['시간'])[:2]+":"+str(stockInfo['시간'])[2:]
-    # result['openingPrice'] = stockInfo['시가']
-    # result['currentPrice'] = stockInfo['현재가']
+
+
+    #TODO 순위있는 필드 통합 관리
+    riseRank =  allStockDict['riseRates'].index(stockInfo['상승률'])#인덱스를 통해 상승률 순위를 정한다
+    result['riseRank'] = riseRank #상승순위
+
+    amountRank = allStockDict['transactionAmountRates'].index(stockInfo['거래대금'])#인덱스를 통해 거래대금 순위를 정한다
+    result['amountRank'] = amountRank #거래대금순위
+
+    per = stockInfo['per']
+    perRank = allStockDict['perRates'].index(per)
+    #TODO 순위있는 필드 통합 관리
+
+
+
+
+    result['per'] = round(per,2)
+    result['perRank'] = perRank
+
 
 
     return result
@@ -82,6 +87,11 @@ if __name__ == "__main__":
         result[i]['stockName'] = codeToName(result[i]['stockCode'])
 
 
+    ##테스트
+    # for i in result:
+    #     print(i)
+    # quit()
+    ##테스트끝
     result = json.dumps(result)
     print(result)
 

@@ -3,7 +3,7 @@
 '''
 self.dataInfo = {
     'riseRates':[상승률 리스트], # 차후 인덱스로 개별 주식의 상승률 순위 구함
-    'transactionAmount':[거래디금 리스트],# 차후 인덱스로 개별 주식의 거래대금 순위 구함
+    'transactionAmountRates':[거래디금 리스트],# 차후 인덱스로 개별 주식의 거래대금 순위 구함
     'stockInfo':{주식: 주식종목} #차후 이부분이 리스트화 되어 리턴됨
     }
 '''
@@ -103,8 +103,10 @@ class CpMarketEye:
             
             riseRate = calRiseRate(tdict['현재가'],tdict['전일종가']) #상승률
             tdict['상승률']=riseRate
+            #순위용 필드들 처리
             dataInfo['riseRates'].append(riseRate) #전체 상승률 리스트에 삽입
-            dataInfo['transactionAmount'].append(tdict['거래대금'])#전체 거래대금 리스트에 삽입
+            dataInfo['transactionAmountRates'].append(tdict['거래대금'])#전체 거래대금 리스트에 삽입\
+            dataInfo['perRates'].append(tdict['per'])
 
             dataInfo['stockInfo'][stockCode]= tdict #데이터정보에 투입
         return True
@@ -112,8 +114,9 @@ class CpMarketEye:
 class CMarketTotal():
     def __init__(self):
         self.dataInfo = {
+            'perRates': [],
             'riseRates':[],
-            'transactionAmount':[],
+            'transactionAmountRates':[],
             'stockInfo':{}
             }
  
@@ -141,7 +144,8 @@ class CMarketTotal():
             objMarket.Request(rqCodeList, self.dataInfo)
         
         self.dataInfo['riseRates'].sort(reverse=True)
-        self.dataInfo['transactionAmount'].sort(reverse=True)
+        self.dataInfo['transactionAmountRates'].sort(reverse=True)
+        self.dataInfo['perRates'].sort()
  
     def getMarketTotal(self):
         allStockDict = self.dataInfo
@@ -164,16 +168,17 @@ if __name__ == "__main__":
     
     #삭제테스트
     print(len(res['riseRates']))#얘네 셋이 같아얗마
-    print(len(res['transactionAmount']))#얘네 셋이 같아얗마
+    print(len(res['perRates']))#얘네 셋이 같아얗마
+    print(len(res['transactionAmountRates']))#얘네 셋이 같아얗마
     print(len(res['stockInfo']))#얘네 셋이 같아얗마
     idx = 0
     for i in res['stockInfo']:
-        if "아모레G" in res['stockInfo'][i]['종목명']:
+        if "NAVER" in res['stockInfo'][i]['종목명']:
             print(res['stockInfo'][i])
 
     quit()
     print(res['riseRates'][:10])
-    print(res['transactionAmount'][:10])
+    print(res['transactionAmountRates'][:10])
  
     stocks = res['stockInfo']
     for key in stocks:
