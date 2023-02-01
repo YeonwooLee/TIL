@@ -1,6 +1,7 @@
 package com.example.stock_helper.python;
 
 import com.example.stock_helper.stock.Stock;
+import com.example.stock_helper.telegram.strings.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
@@ -40,6 +41,7 @@ public class StockFinder {
         return result;
     }
 
+    //오늘의 핫한 주식
     public List<String> makeTodayHotStock(int riseRate, long hundredMillion){
         List<Stock> stocks = getStocks();//
         List<Stock> result = new ArrayList<>();
@@ -68,9 +70,11 @@ public class StockFinder {
             int riseRank = stock.getRiseRank();
             long stockTransactionAmount = stock.getStockTransactionAmount() / 100000000;
             int amountRank = stock.getAmountRank();
-
+            float per = stock.getPer();
+            int perRank = stock.getPerRank();
             //문자열 포멧팅
-            String strStock = String.format("◎ %s \n[%.2f%%(%d위) / 거래대금 %d억(%d위)]\n",stockName,stockRise,riseRank,stockTransactionAmount,amountRank);
+            String strStock = String.format(Message.HOT_STOCK_INF.getMsgFormat(),stockName,stockRise,riseRank,stockTransactionAmount,amountRank,
+                    per,perRank);
 
             //최종결과리스트에 삽입
             finalResult.add(strStock);

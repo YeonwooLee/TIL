@@ -26,6 +26,10 @@ public class Stock {
     private int currentPrice;//현재가
     
     private String searchTime;//검색 시간(추정)
+    
+    //PER
+    private float per;//per
+    private int perRank;//per순위
 
 
     public String testString(){

@@ -101,8 +101,11 @@ public class EchoBot extends TelegramLongPollingBot {
             int riseRank = stock.getRiseRank();
             long stockTransactionAmount = stock.getStockTransactionAmount() / 100000000;
             int amountRank = stock.getAmountRank();
+            float per = stock.getPer();
+            int perRank = stock.getPerRank();
 
-            result = String.format("◎ %s [%.2f%%(%d위) / 거래대금 %d억(%d위)]",stockName,stockRise,riseRank,stockTransactionAmount,amountRank);
+            result = String.format(Message.ONE_STOCK_INF.getMsgFormat(),stockName,stockRise,riseRank,stockTransactionAmount,amountRank,
+                    per,perRank);
             return result;
         }catch(RuntimeException e){
             if (e.getMessage().equals(String.format(MyErrorMsg.NO_STOCK_NAME_ERROR.getMsgFormat(),stockName))){
