@@ -34,7 +34,7 @@ public class ScheduledTasks {
     private final MyConverter myConverter;
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-
+    private static final long MILLION = 100_000_000;
     @Scheduled(cron = "*/10 55 1,19 * * *") //1시 17시의 55분에 10초마다 발생
     public void reportCurrentTime() {
         // stockFinder.setTempStock(stockFinder.getStocks());
@@ -43,10 +43,12 @@ public class ScheduledTasks {
     }
     @Scheduled(cron = "0 0 12,18 * * *") //0초 0분 12시, 18시 매일 매월 매년
     public void autoHotAlert() throws TelegramApiException {//오늘의 HOT 주식 자동 알림
+        String timeText = dateFormat.format(new Date())+Message.ALERT_SOMETHING.getMsgFormat();//시간 + 입니다.
         // stockFinder.setTempStock(stockFinder.getStocks());
         log.info("자동생성 리스트");
-        List<String> stockStrings = stockFinder.makeTodayHotStock(RISE_RATE_FOR_SCHEDULE.getNum(), HUNDRED_MILLION_FOR_SCHEDULE.getNum());
-        String timeText = dateFormat.format(new Date())+Message.ALERT_SOMETHING.getMsgFormat();//시간 + 입니다.
+        List<String> stockStrings = stockFinder.makeTodayHotStock(RISE_RATE_FOR_SCHEDULE.getNum(),
+                HUNDRED_MILLION_FOR_SCHEDULE.getNum()*MILLION);//300을 300억으로변환하기위해 1억 곱함
+
 
         String todayHotStockMsgHeaderAuto = String.format(//<오늘의 자동알림 HOT %d%, %d억>
                 TODAY_HOT_STOCK_MSG_HEADER_AUTO.getMsgFormat(),

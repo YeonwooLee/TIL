@@ -63,7 +63,7 @@ public class EchoBot extends TelegramLongPollingBot {
             msg = stockDetailToString(order);
         }// !!float 상승률,int 억
         else if(userText.startsWith(Order.TODAY_HOT_STOCK.getOrderCode())){
-            order = userText.replace(Order.TODAY_HOT_STOCK.getOrderCode(),"");//명령에서 명령코드("!!") 제거 -> !!float 상승률,int 억
+            order = userText.replace(Order.TODAY_HOT_STOCK.getOrderCode(),"");//명령에서 명령코드("!") 제거 -> !float 상승률,int 억
             msg = TODAY_HOT_STOCK_MSG_HEADER.getMsgFormat() + myConverter.listToMsg(getTodayHotStock(order));
 
 

@@ -12,4 +12,5 @@ public enum NumberSetting {
         this.num = num;
     }
 
+
 }

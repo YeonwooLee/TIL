@@ -4,13 +4,14 @@ import com.example.stock_helper.stock.Stock;
 import com.example.stock_helper.telegram.strings.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 import static com.example.stock_helper.telegram.strings.MyErrorMsg.NO_STOCK_NAME_ERROR;
 
-
+@Slf4j
 @Component
 @RequiredArgsConstructor
 @Setter
@@ -43,6 +44,7 @@ public class StockFinder {
 
     //오늘의 핫한 주식
     public List<String> makeTodayHotStock(int riseRate, long hundredMillion){
+        log.info("todayHot >>> riseRate = {}, hundredMillion = {}",riseRate, hundredMillion);
         List<Stock> stocks = getStocks();//
         List<Stock> result = new ArrayList<>();
 
