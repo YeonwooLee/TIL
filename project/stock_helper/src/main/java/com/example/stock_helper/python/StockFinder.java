@@ -73,10 +73,16 @@ public class StockFinder {
             long stockTransactionAmount = stock.getStockTransactionAmount() / 100000000;
             int amountRank = stock.getAmountRank();
             float per = stock.getPer();
-            int perRank = stock.getPerRank();
+            long marketCapitalization = stock.getMarketCapitalization()/100000000;
             //문자열 포멧팅
-            String strStock = String.format(Message.HOT_STOCK_INF.getMsgFormat(),stockName,stockRise,riseRank,stockTransactionAmount,amountRank,
-                    per,perRank);
+            String strStock = String.format(Message.HOT_STOCK_INF.getMsgFormat(),
+                    stockName,
+                    stockRise,
+                    riseRank,
+                    stockTransactionAmount,
+                    amountRank,
+                    marketCapitalization,
+                    per);
 
             //최종결과리스트에 삽입
             finalResult.add(strStock);
