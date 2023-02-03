@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #자바에 전달되는 전체 종목 핵심 정보의 리스트 반환할 때 사용
 import win32com.client
-from allStockDict import makeAllStockDict
+from allStockDict import makeAllStockDict, g_objCodeMgr
 import sys
 import json
 from const import rqParam
@@ -48,6 +48,15 @@ def getDetail(stockCode):
     result['searchTime'] = str(stockInfo['시간'])[:2]+":"+str(stockInfo['시간'])[2:]
 
 
+    #시총구하기
+    issuedShare =  result['issuedShare'] #상장주식수
+    currentPrice = result['currentPrice'] #현재가격
+    maketAmt = issuedShare * currentPrice #시가총액
+    if g_objCodeMgr.IsBigListingStock(stockCode) : #CpUtil.CpCodeMgr 서비스 IsBigListingStock(code) : 상장 주식수 20억 이상 여부 리턴
+        maketAmt *= 1000
+    result['marketCapitalization'] = maketAmt #시총
+
+
     #TODO 순위있는 필드 통합 관리
     riseRank =  allStockDict['riseRates'].index(stockInfo['상승률'])#인덱스를 통해 상승률 순위를 정한다
     result['riseRank'] = riseRank #상승순위
@@ -87,11 +96,11 @@ if __name__ == "__main__":
         result[i]['stockName'] = codeToName(result[i]['stockCode'])
 
 
-    ##테스트
+    # #테스트
     # for i in result:
     #     print(i)
     # quit()
-    ##테스트끝
+    # #테스트끝
     result = json.dumps(result)
     print(result)
 

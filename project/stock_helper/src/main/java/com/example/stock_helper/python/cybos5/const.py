@@ -18,6 +18,9 @@ rqParam = {
     17:{'paramKR':'종목명', 
     'paramENG':'currentPrice'},
     
+    20:{'paramKR':'상장주식수', 
+    'paramENG':'issuedShare'},
+    
     23:{'paramKR':'전일종가', 
     'paramENG':'currentPrice'},
     
