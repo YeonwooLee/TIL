@@ -25,6 +25,7 @@ public class ReadPython {
             command += " " + arg;
         }
         log.debug(String.format("파이썬 파일 실행, command = %s", command));
+        System.out.println("python command is " + command);
         String result = "";
         T mo = null;
         try {
