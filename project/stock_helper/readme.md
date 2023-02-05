@@ -120,7 +120,56 @@
     - cybos가 꺼지면 자동으로 재시작
 # 해결된 디버깅{원인}{해결방법}
 
-- 
+- Cybos 자동 꺼지는 문제 해결
+
+  #### #원인 : cybos는 실행 후 24시간이 지나면 자동 종료됨
+
+  #### #해결방법
+
+  1. ProcessBuilder 사용하여 cybos 실행 파일 CpStarter.exe를 실행하여 해결
+
+     ``` java
+     String[] command = new String[] {"C:\\DAISHIN\\STARTER\\ncStarter.exe","/prj:cp","/id:"+id,"/pwd:"+pwd,"/pwdcert:"+pwdcert, "/autostart"};
+     
+     Process process = new ProcessBuilder(command).start();
+     ```
+
+     
+
+2.  이미 cybos가 실행중인 경우 기존 프로세스를 종료할지 묻는 Confirm창이 떠서 자동으로 진행되지 않는 문제 발생
+
+   1. guiController.py= confirm창이 뜨면 자동으로 예를 누르는 파이썬 프로그램 작성
+   2. Cybos 자동 실행 코드 맨 뒤에 guiController.py를 실행하는 코드 추가
+      - python script를 실행하는 코드(ReadPython.java)
+
+3. 컴퓨터 환경에 따라 Confirm창이 뜨기 전에 파이썬 스크립트가 실행되는 문제 발생
+
+   > 파이썬 스크립트는 실행시점에 Confirm창이 있나 확인하기 때문에 Confrim창이 늦게 뜨면 없는 것으로 판단하고 종료됨
+
+   1. n초 동안 n번 확인하고 종료하는 로직으로 변경
+
+      ```python
+      flag = False
+      for sec in range(waitMax):
+          conFirmExist = imgExistWithConfidence(confirm_exit_cp,0.95)['exist'] #Confirm창 존재함
+          if conFirmExist:
+              # print(conFirmExist)
+              mouseToImgAndClick(confirm_exit_cp_yes,0.95) #확인버튼 클릭
+              flag = True #Confirm 종료
+              break
+          time.sleep(1)
+          
+      if flag:
+          print('기존 프로그램 종료')
+      else:
+          print('기존 프로그램 없음')
+      ```
+
+      
+
+---
+
+
 
 - 8글자에서 주식명 끊기는 문제
 
@@ -134,7 +183,7 @@
   ```
 
 - 신규상장주 검색 되지 않는 문제
-  
+
   - 원인: 종목['상승률'] 계산에서 어제 가격이 0이라 division by zero 발생
   - 해결방법: 어제 가격이 0이면 어제 가격대신 오늘 시가로 계산하도록 변경
 

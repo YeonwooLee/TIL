@@ -1,4 +1,5 @@
 package com.example.stock_helper.telegram;
+import com.example.stock_helper.python.CybosConnection;
 import com.example.stock_helper.stock.Stock;
 import com.example.stock_helper.python.StockFinder;
 import com.example.stock_helper.telegram.strings.Chat;
@@ -14,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -24,6 +26,7 @@ import static com.example.stock_helper.telegram.strings.Message.TODAY_HOT_STOCK_
 public class EchoBot extends TelegramLongPollingBot {
     private final StockFinder stockFinder;
     private final MyConverter myConverter;
+    private final CybosConnection cybosConnection;
 
     @Override
     public String getBotUsername() {
@@ -65,8 +68,8 @@ public class EchoBot extends TelegramLongPollingBot {
         else if(userText.startsWith(Order.TODAY_HOT_STOCK.getOrderCode())){
             order = userText.replace(Order.TODAY_HOT_STOCK.getOrderCode(),"");//명령에서 명령코드("!") 제거 -> !float 상승률,int 억
             msg = TODAY_HOT_STOCK_MSG_HEADER.getMsgFormat() + myConverter.listToMsg(getTodayHotStock(order));
-
-
+        }else if(userText.startsWith(Order.EXCUTE_CYBOS_PLUS.getOrderCode())){
+            msg = runCybosPlus();
         }
 
         if(chatId.equals(Chat.STOCK_SEARCH.getChatId())){//채팅아이디가 이거면
@@ -81,6 +84,19 @@ public class EchoBot extends TelegramLongPollingBot {
                 .text(msg)
                 .chatId(chatId)
                 .build();
+    }
+    private String runCybosPlus(){
+        boolean result;
+        try {
+            result = cybosConnection.runCybos(); // 연결성공
+        } catch (IOException e) {
+            e.printStackTrace();
+            result = false; //연결실패
+        }
+
+
+        return result?Message.CONNECT_SUCCESS.getMsgFormat():Message.CONNECT_FAIL.getMsgFormat();
+        
     }
     //오늘의 핫한주식
     private List<String> getTodayHotStock(String order){//order = "상승률,몇억이상"
