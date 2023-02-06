@@ -10,6 +10,15 @@
 
 # 푼 문제 목록
 
+### 2023 - 02 - 06
+
+- 틀림
+  -  Bellman–Ford / bj_G3 / 30 / X / 웜홀(https://www.acmicpc.net/problem/1865)
+
+- 맞음
+  - ? / swea_d3 / 30-- / O / 원재의 메모리 복구하기(https://swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AV19AcoKI9sCFAZN&categoryId=AV19AcoKI9sCFAZN&categoryType=CODE&problemTitle=1289&orderBy=FIRST_REG_DATETIME&selectCodeLang=ALL&select-1=&pageSize=10&pageIndex=1)
+  - recursion / bj_S5 /30-- / O / 재귀함수가 뭔가요?(https://www.acmicpc.net/problem/17478)
+
 ### 2023 - 01 - 30
 
 - 틀림
