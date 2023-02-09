@@ -10,6 +10,29 @@
 
 # 푼 문제 목록
 
+### 2023 - 02- 09
+
+- 틀림
+  -  two_pointer / bj_g2 / 120++ / XX / 가장 작은 직사각형(https://www.acmicpc.net/problem/1438)
+
+- 맞음
+  - union-find / bj_G4 / 20 / O / 집합의표현(https://www.acmicpc.net/problem/1717)
+  - Back-Tracking / bj_G5 / 50 / O / 주사위_쌓기(https://www.acmicpc.net/problem/2116)
+  - sliding_window /bj_S2 / 30 / O / DNA 비밀번호(https://solved.ac/contribute/12891) 
+  - BackTracking/bj_S2/30/O/도영이가 만든 맛있는 음식(https://www.acmicpc.net/problem/2961)
+- 킵
+  - 2023 / 신기한 소수
+  - 2156 / 포도주 시식
+
+
+### 2023 - 02- 07
+
+- 틀림
+  -  dp / bj_g2 / 60+ / X / 성냥개비(https://www.acmicpc.net/problem/3687)
+
+- 맞음
+  - Backtracking/ Bj_G5 / 30 / O / 암호만들기(https://www.acmicpc.net/problem/1759)
+
 ### 2023 - 02 - 06
 
 - 틀림
@@ -22,7 +45,7 @@
 ### 2023 - 01 - 30
 
 - 틀림
-  -  two_pointer / bj_g2 / 120++ / X / 가장 작은 직사각형(https://www.acmicpc.net/problem/1438)
+  -  []two_pointer / bj_g2 / 120++ / X / 가장 작은 직사각형(https://www.acmicpc.net/problem/1438)
 
 ### 2023 - 01 - 29
 
