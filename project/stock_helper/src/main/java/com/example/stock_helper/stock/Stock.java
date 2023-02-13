@@ -24,8 +24,18 @@ public class Stock {
     //가격
     private int openingPrice;//시가
     private int currentPrice;//현재가
-    
+
+    //시가총액
+    private long marketCapitalization;//시가총액
+
+    //검색시간
     private String searchTime;//검색 시간(추정)
+    
+    //PER
+    private float per;//per
+    private int perRank;//per순위
+
+
 
 
     public String testString(){

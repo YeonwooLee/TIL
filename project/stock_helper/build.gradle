@@ -32,6 +32,8 @@ dependencies {
 	implementation 'org.telegram:telegrambots:6.4.0'
 	implementation 'com.google.code.gson:gson:2.8.6'
 	testImplementation 'org.awaitility:awaitility:3.1.2'
+	implementation 'net.java.dev.jna:jna:5.13.0'
+
 }
 
 tasks.named('test') {
