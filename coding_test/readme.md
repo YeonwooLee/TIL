@@ -10,6 +10,14 @@
 
 # 푼 문제 목록
 
+### 2023 - 02- 13
+
+- 틀림
+  -  greedy , priority-queue / bj_G5 / 60++ / X / 강의실 배정(https://www.acmicpc.net/problem/11000)
+
+- 맞음
+  - stack, string / bj_S4 / 30 / O /  괄호(https://www.acmicpc.net/problem/9012)
+
 ### 2023 - 02- 09
 
 - 틀림
