@@ -8,7 +8,26 @@
 - 맞음
   - /  /  /  /
 
+
+
 # 푼 문제 목록
+
+### 2023 - 02- 14
+
+- 틀림
+  -  greedy, prefix-sum / bj_G5  / 30  / X  / 꿀 따기(https://www.acmicpc.net/problem/21758)
+  -  greedy, big-integer / bj_S2 / 60+ / X / 민겸 수(https://www.acmicpc.net/problem/21314)
+  
+- 맞음
+  - /  /  /  /
+
+### 2023 - 02- 13
+
+- 틀림
+  -  greedy , priority-queue / bj_G5 / 60++ / X / 강의실 배정(https://www.acmicpc.net/problem/11000)
+
+- 맞음
+  - stack, string / bj_S4 / 30 / O /  괄호(https://www.acmicpc.net/problem/9012)
 
 ### 2023 - 02- 09
 
