@@ -2,6 +2,7 @@ package com.example.stock_helper;
 
 import com.example.stock_helper.stock.Stock;
 import com.example.stock_helper.python.StockFinder;
+import com.example.stock_helper.stock.StockRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,27 +14,31 @@ import java.util.List;
 class StockFinderHelperApplicationTests {
 	@Autowired
 	StockFinder stockFinder;
+	@Autowired
+	StockRepository stockRepository;
+
 
 	@Test
-	public void 주식상세정보가져오기(){
-		//given
-		String stockName = "동화약품";
-
-		//when
-		Stock stockDetail = stockFinder.getStockDetail(stockName);
-		// then
-		System.out.println("stockDetail = " + stockDetail);
-		Assertions.assertEquals(stockName,stockDetail.getStockName());
-	}
-
-	@Test
-	public void 전체주식리스트생성(){
+	public void 파이썬에서전체주식리스트생성(){
 	    //given
 
 	    //when
 		List<Stock> stocks = stockFinder.getStocks();
-	    // then
+		String s = stocks.get(0).toString();
+		System.out.println("s = " + s);
+		// then
 
 		Assertions.assertEquals("동화약품",stocks.get(0).getStockName());
+	}
+
+	@Test
+	public void 주식저장(){
+	    //given
+		List<Stock> stocks = stockFinder.getStocks();
+		Stock stock = stocks.get(0);
+		stockRepository.save(stock);
+	    //when
+
+	    // then
 	}
 }

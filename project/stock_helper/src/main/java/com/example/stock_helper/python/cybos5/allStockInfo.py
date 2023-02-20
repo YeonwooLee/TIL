@@ -5,6 +5,7 @@ from allStockDict import makeAllStockDict, g_objCodeMgr
 import sys
 import json
 from const import rqParam
+from datetime import datetime
 
 allStockDict = makeAllStockDict() #기본 주식
 
@@ -30,7 +31,7 @@ def codeToName(code):
 
 #kEY한글 -> KEY영어로 변경
 #상승률 및 거래대금 순위 책정
-def getDetail(stockCode):
+def getDetail(stockCode,searchTime):
     
     stocks = allStockDict['stockInfo'] 
     stockInfo = stocks[stockCode]
@@ -45,7 +46,10 @@ def getDetail(stockCode):
 
     #조정필요한 필드
     result['stockRise'] = stockInfo['상승률']
-    result['searchTime'] = str(stockInfo['시간'])[:2]+":"+str(stockInfo['시간'])[2:]
+
+    #시간 - 그냥 막판에 강제꼐산
+    # result['searchTime'] = datetime.today().strftime("%Y-%m-%d %H:%M"+":00.000")
+    # str(stockInfo['시간'])[:2]+":"+str(stockInfo['시간'])[2:]
 
 
     #시총구하기
@@ -74,6 +78,10 @@ def getDetail(stockCode):
     result['per'] = round(per,2)
     result['perRank'] = perRank
 
+    result['stockId'] = {
+        'searchTime':searchTime,
+        'stockCode':stockCode
+    }
 
 
     return result
@@ -81,8 +89,9 @@ def getDetail(stockCode):
 # 모든주식 info가 담긴 리스트 생성
 def makeAllStockInfo():
     allStockList = []
+    searchTime = datetime.today().strftime("%Y-%m-%d %H:%M"+":00.000")
     for key in allStockDict['stockInfo']:
-        allStockList.append(getDetail(key))
+        allStockList.append(getDetail(key,searchTime))
     return allStockList
 
 
@@ -91,15 +100,18 @@ if __name__ == "__main__":
     # result = main(sys.argv[1:])
     result = makeAllStockInfo()
     
+    # timefinal = datetime.today().strftime("%Y-%m-%d %H:%M"+":00.000")
     #8자제한 해제
     for i in range(len(result)):
         result[i]['stockName'] = codeToName(result[i]['stockCode'])
+        # result[i]['stockId']['searchTime'] = timefinal
+        
+
+    
 
 
     # #테스트
-    # for i in result:
-    #     print(i)
-    # quit()
+
     # #테스트끝
     result = json.dumps(result)
     print(result)

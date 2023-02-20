@@ -2,6 +2,9 @@ package com.example.stock_helper.telegram;
 
 
 import com.example.stock_helper.python.StockFinder;
+import com.example.stock_helper.stock.Stock;
+import com.example.stock_helper.stock.StockRepository;
+import com.example.stock_helper.stock.StockService;
 import com.example.stock_helper.telegram.strings.Message;
 import com.example.stock_helper.telegram.strings.NumberSetting;
 import com.example.stock_helper.util.MyConverter;
@@ -32,21 +35,18 @@ public class ScheduledTasks {
     private final TelegramBotsApi telegramBotsApi;
     private final EchoBot echoBot;
     private final MyConverter myConverter;
+    private final StockService stockService;
+
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     private static final long MILLION = 100_000_000;
-    @Scheduled(cron = "*/10 55 1,19 * * *") //1시 17시의 55분에 10초마다 발생
-    public void reportCurrentTime() {
-        // stockFinder.setTempStock(stockFinder.getStocks());
-        log.info("주식리스트 갱신 {}", dateFormat.format(new Date()));
-        //TODO db에 주식 리스트 갱신 현재시간+주식코드 = pk, 주식명, 현재가, 등수 등
-    }
+
     @Scheduled(cron = "0 0 12,18 * * *") //0초 0분 12시, 18시 매일 매월 매년
     public void autoHotAlert() throws TelegramApiException {//오늘의 HOT 주식 자동 알림
         String timeText = dateFormat.format(new Date())+Message.ALERT_SOMETHING.getMsgFormat();//시간 + 입니다.
         // stockFinder.setTempStock(stockFinder.getStocks());
         log.info("자동생성 리스트");
-        List<String> stockStrings = stockFinder.makeTodayHotStock(RISE_RATE_FOR_SCHEDULE.getNum(),
+        List<String> stockStrings = stockService.makeTodayHotStock(RISE_RATE_FOR_SCHEDULE.getNum(),
                 HUNDRED_MILLION_FOR_SCHEDULE.getNum()*MILLION);//300을 300억으로변환하기위해 1억 곱함
 
 

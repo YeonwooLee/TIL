@@ -2,6 +2,7 @@ package com.example.stock_helper.telegram;
 import com.example.stock_helper.python.CybosConnection;
 import com.example.stock_helper.stock.Stock;
 import com.example.stock_helper.python.StockFinder;
+import com.example.stock_helper.stock.StockService;
 import com.example.stock_helper.telegram.strings.Chat;
 import com.example.stock_helper.telegram.strings.Message;
 import com.example.stock_helper.telegram.strings.MyErrorMsg;
@@ -16,6 +17,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 
@@ -27,6 +29,7 @@ public class EchoBot extends TelegramLongPollingBot {
     private final StockFinder stockFinder;
     private final MyConverter myConverter;
     private final CybosConnection cybosConnection;
+    private final StockService stockService;
 
     @Override
     public String getBotUsername() {
@@ -46,6 +49,16 @@ public class EchoBot extends TelegramLongPollingBot {
             // System.out.println("받은 메시지 정보 = " + mensagem);
             try {
                 execute(mensagem);
+
+                //개씹임시추가시작
+                var chatId = update.getMessage().getChatId().toString();
+                var temp = "데이터 기준시" + stockService.getLastTime();
+
+                execute(SendMessage.builder()
+                        .text(temp)
+                        .chatId(chatId)
+                        .build());
+                //개씹임시추가종료
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
@@ -58,6 +71,16 @@ public class EchoBot extends TelegramLongPollingBot {
         String order = "";
         var msg =  userText;//답장 기본적으로 유저 인풋 그대로
 
+
+        //TODO 만약 최근 3분 안에 업뎃 친게 없다면 업뎃친다.
+        try {
+            makeUsableState();
+        } catch (ParseException e) {
+            msg = "주식리스트 검증 오류";
+            e.printStackTrace();
+        }
+
+
         if(userText.startsWith("이거로시작하면") && chatId.equals(Chat.STOCK_SEARCH.getChatId())){
             msg = "이 메세지를 출력한다";
         }//주식상세정보
@@ -66,8 +89,15 @@ public class EchoBot extends TelegramLongPollingBot {
             msg = stockDetailToString(order);
         }// !!float 상승률,int 억
         else if(userText.startsWith(Order.TODAY_HOT_STOCK.getOrderCode())){
-            order = userText.replace(Order.TODAY_HOT_STOCK.getOrderCode(),"");//명령에서 명령코드("!") 제거 -> !float 상승률,int 억
-            msg = TODAY_HOT_STOCK_MSG_HEADER.getMsgFormat() + myConverter.listToMsg(getTodayHotStock(order));
+            msg = "ERROR!";
+            try{
+                order = userText.replace(Order.TODAY_HOT_STOCK.getOrderCode(),"");//명령에서 명령코드("!") 제거 -> !float 상승률,int 억
+                msg = TODAY_HOT_STOCK_MSG_HEADER.getMsgFormat() + myConverter.listToMsg(getTodayHotStock(order));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+
         }else if(userText.startsWith(Order.EXCUTE_CYBOS_PLUS.getOrderCode())){
             msg = runCybosPlus();
         }
@@ -85,6 +115,15 @@ public class EchoBot extends TelegramLongPollingBot {
                 .chatId(chatId)
                 .build();
     }
+
+
+    private boolean makeUsableState() throws ParseException {
+        //TODO 이거 구현
+        stockService.passMinuteLastCheck("currentTime",3);
+        return true;
+    }
+
+
     private String runCybosPlus(){
         boolean result;
         try {
@@ -103,7 +142,7 @@ public class EchoBot extends TelegramLongPollingBot {
         String[] orders = order.split(",");
         int riseRate = Integer.parseInt(orders[0]);//상승률
         long hundredMillion = Long.parseLong(orders[1])*100000000;//몇 억 이상인지 찾는용
-        List<String> todayHotStocks = stockFinder.makeTodayHotStock(riseRate,hundredMillion);
+        List<String> todayHotStocks = stockService.makeTodayHotStock(riseRate,hundredMillion);
         return todayHotStocks;
     }
 
@@ -111,7 +150,8 @@ public class EchoBot extends TelegramLongPollingBot {
     private String stockDetailToString(String stockName){
         String result = "임시";
         try {
-            Stock stock = stockFinder.getStockDetail(stockName);
+            Stock stock = stockService.getStockDetail(stockName);
+
 
             float stockRise = stock.getStockRise();
             int riseRank = stock.getRiseRank();
@@ -119,6 +159,8 @@ public class EchoBot extends TelegramLongPollingBot {
             int amountRank = stock.getAmountRank();
             float per = stock.getPer();
             long marketCapitalization = stock.getMarketCapitalization()/100000000;
+            long dayForeignNetPurchase = stock.getDayForeignNetPurchase();
+            long dayInstitutionalNetPurchase = stock.getDayInstitutionalNetPurchase();
 
             result = String.format(Message.ONE_STOCK_INF.getMsgFormat(),
                     stockName,
@@ -127,10 +169,13 @@ public class EchoBot extends TelegramLongPollingBot {
                     stockTransactionAmount,
                     amountRank,
                     marketCapitalization,
-                    per);
+                    per,
+                    dayForeignNetPurchase,
+                    dayInstitutionalNetPurchase);
             return result;
         }catch(RuntimeException e){
             if (e.getMessage().equals(String.format(MyErrorMsg.NO_STOCK_NAME_ERROR.getMsgFormat(),stockName))){
+                e.printStackTrace();
                 return String.format(Message.NOT_EXIST_STOCK_NAME.getMsgFormat(),stockName);
             }
             return MyErrorMsg.DISCONNECT_MAYBE.getMsgFormat();
