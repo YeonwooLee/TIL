@@ -12,15 +12,29 @@
 
 # 푼 문제 목록
 
+### 2023 - 02 - 20
+
+- 틀림
+  -  mplementation/bj/S2/7시간30분/X/16113/시그널
+
+- 맞음
+  - implementation_bj_S5_time_O_1505_CPU
+
+
+
 ### 2023 - 02 - 16
 
 - 틀림
   -  Implementation_bj_G4_120+_X_17406__배열돌리기4
-
 - 맞음
   - /  /  /  /
 
+### 2023 - 02 - 15
 
+- 틀림
+  -  /  /  /  /
+- 맞음
+  - no_bj_s5_20_O_2563_색종이__https:///www.acmicpc.net/problem/2563
 
 ### 2023 - 02- 14
 
