@@ -12,6 +12,21 @@
 
 # 푼 문제 목록
 
+### 2023 - 02 - 21
+
+- 틀림
+
+  -  implementation /bj / G4/ 120 ++ / X / 20056 /마법사 상어와 파이어 볼
+  -  Divide And Conquer / bj / S1 / 60 / X / 1992 / 쿼드트리
+
+- 맞음
+
+  - implemenation/ bj / G3 / 120+ / O / 23288/ 주사위 굴리기 2/ https://www.acmicpc.net/problem/23288
+
+    
+
+
+
 ### 2023 - 02 - 20
 
 - 틀림
