@@ -16,6 +16,7 @@
 
 - 틀림
   -  implementation / bj / s4 / 60 / X / 20436 / ZOAC 3
+  -  implementation, dfs / bj / G2 / 300 / X / 12100 / 2048(easy) / https://www.acmicpc.net/problem/12100
 
 - 맞음
   - /  /  /  /
