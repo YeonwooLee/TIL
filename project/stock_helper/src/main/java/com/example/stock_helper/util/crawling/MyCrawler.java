@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,31 +32,29 @@ public class MyCrawler {
         WebElement element = driver.findElement(By.xpath("//*[@id=\"category282\"]"));
         element.click();
 
-        List<WebElement> elements = driver.findElements(By.className("se-text-paragraph-align-"));
+        //개별p를 클래스로 가져옴
+        // List<WebElement> elements = driver.findElements(By.className("se-text-paragraph-align-"));
+
+        //원본주식 tag
+        WebElement zoosikDict = driver.findElement(By.xpath("//*[@id=\"post-view223020286265\"]/div/div[2]"));
+        //문자열추출
+        String[] zoosikArr = zoosikDict.getText().split("\n");
 
         // Get the page source
         String pageSource = driver.getPageSource();
 
-        // int idx=0;
-        // for(WebElement e : elements){
-        //
-        //     System.out.println("e.getText() = " + e.getText());
-        //     idx++;
-        //     if(idx==5) break;
-        // }
 
 
         Map<String,String> map = new HashMap<>();
-        for(int i=0;i< elements.size();i++){
-            String cur = elements.get(i).getText();
+        for(int i=0;i< zoosikArr.length;i++){
+            String cur = zoosikArr[i];
             if(!cur.contains(":")) continue;//:없으면 continue;
-            String[] keyAndVal = cur.split(":");
+            String[] keyAndVal = cur.split(":",2);
 
             String key = keyAndVal[0];
-            String val = keyAndVal[1];
+            List<String> vals= Arrays.stream(keyAndVal[1].replace("/ h",",h").replace(" ","").split(",")).toList();
 
-            map.put(key,val);
-
+            map.put(key,vals.toString());
         }
         // Close the WebDriver
         driver.quit();
