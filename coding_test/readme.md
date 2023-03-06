@@ -12,10 +12,40 @@
 
 # 푼 문제 목록
 
+### 2023 - 03- 02
+
+- 틀림
+  -  dp/bj  /G4  / 60 /X/14722/우유도시/https://www.acmicpc.net/problem/14722
+
+- 맞음
+  - /  /  /  /
+
+
+
+### 2023 - 03 - 01
+
+- 틀림
+  -  dp/bj/S1/120++/X/22871/징검다리 건너기 (large)/ https://www.acmicpc.net/problem/22871
+  -  dp/bj/G5/105/X/2294/동전2/ https://www.acmicpc.net/problem/2294
+
+- 맞음
+  - bruteforcing, implementation / bj / G4 / O / 17281 / 야구공 /  https://www.acmicpc.net/problem/17281
+  - bfs/swea/D4/30+/O/1238/Contact/https://swexpertacademy.com/main/code/problem/problemDetail.do?contestProbId=AV15B1cKAKwCFAYD
+
+
+
+### 2023 - 02 - 28
+
+- 틀림
+  -  /  /  /  /
+
+- 맞음
+  - priority-queue/ bj / G2 / 80 / O / 17612 / 쇼핑몰
+
 ### 2023 - 02- 24
 
 - 틀림
-  -  implementation / bj / s4 / 60 / X / 20436 / ZOAC 3
+  -  implementation / bj / s4 / 60 / X / 20436 / ZOAC 3 /  https://www.acmicpc.net/problem/20436
   -  implementation, dfs / bj / G2 / 300 / X / 12100 / 2048(easy) / https://www.acmicpc.net/problem/12100
 
 - 맞음

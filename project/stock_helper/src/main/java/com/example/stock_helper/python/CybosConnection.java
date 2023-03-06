@@ -14,6 +14,7 @@ public class CybosConnection {
     private final ReadPython readPython;
 
     public boolean runCybos() throws IOException {
+        log.info("CYBOS를 실행합니다");
         ObjectMapper mapper = new ObjectMapper();
         String workingDir = System.getProperty("user.dir");
 
@@ -33,6 +34,7 @@ public class CybosConnection {
 
         String s = readPython.readPythonFile(String.class, "util\\gui\\python\\guiController", new String[]{"20"});
         System.out.println(s);
+        log.info("Cybos 실행 완료");
         return true;
     }
 }

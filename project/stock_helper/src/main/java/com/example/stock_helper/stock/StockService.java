@@ -33,24 +33,27 @@ public class StockService {
     //주식 최신화 with python
     // @Scheduled(cron = "30 */30 * * * *") //
     @Transactional
-    public void reportCurrentTime() {
+    public int reportCurrentTime() {
         // stockFinder.setTempStock(stockFinder.getStocks());
         log.info("주식리스트 갱신 {}", dateFormat.format(new Date()));
-        String firstCheckTime = getFirstTime();//최초 리스트 작성 시점
+        String lastCheckTime= getLastTime();//최초 리스트 작성 시점
 
 
         //TODO db에 주식 리스트 갱신 현재시간+주식코드 = pk, 주식명, 현재가, 등수 등
         List<Stock> stocks = stockFinder.getStocks();
-        boolean isOk = validateStockList(stocks,firstCheckTime);
-        for (Stock stock : stocks) {
-            stockRepository.save(stock);
-        }
+        boolean isOk = validateStockList(stocks,lastCheckTime);
+        log.info("isOk={}",isOk);
+        log.info("isOk="+isOk);
         if(isOk){
+            log.info("신규 주식 목록 저장 start");
             for (Stock stock : stocks) {
                 stockRepository.save(stock);
             }
+            log.info("신규 주식 목록 저장 완료");
+            return stocks.size();
 
         }else{
+            log.info("주식 수 부족");
             throw new RuntimeException(String.format(DIFFERENCE_STOCK_COUNT.getMsgFormat(),stocks.size()));
         }
 
@@ -115,8 +118,8 @@ public class StockService {
                     amountRank,
                     marketCapitalization,
                     per,
-                    dayForeignNetPurchase,
-                    dayInstitutionalNetPurchase);
+                    dayInstitutionalNetPurchase,
+                    dayForeignNetPurchase);
 
             //최종결과리스트에 삽입
             finalResult.add(strStock);
@@ -126,7 +129,9 @@ public class StockService {
 
     //마지막 검색 시간
     public String getLastTime(){
-        return stockRepository.findMaxSearchTime().get(0);
+        String lastSearchTime = stockRepository.findMaxSearchTime().get(0);
+        log.info("마지막 검색 시간 = {}",lastSearchTime);
+        return lastSearchTime;
     }
     
     //처음 검색 시간
@@ -134,12 +139,26 @@ public class StockService {
         return stockRepository.findMinSearchTime().get(0);
     }
 
+    //마지막 주식 리스트 길이
+    public long getLastStockListSize(){
+        return stockRepository.countBySearchTime(getLastTime());
+    }
     //새로받아온 주식 리스트 검증
     boolean validateStockList(List<Stock> newStocks, String firstCheckTime){//이번에 만든 주식 리스트, 이전 검색 시점
 
         long lastStockListSize = stockRepository.countBySearchTime(firstCheckTime);
-        if(lastStockListSize==0) return true;
-        return newStocks.size()>=lastStockListSize?true:false;
+        log.info("마지막 주식 사이즈 = {}",lastStockListSize);
+        if(lastStockListSize==0) {
+            log.info("서버에서 프로젝트 최초 구동");
+            return true;
+        }
+
+        long newStockListSize = newStocks.size();
+        log.info("최근 주식 사이즈 = {}",newStocks.size());
+
+        boolean result = (newStockListSize>=lastStockListSize)?true:false;
+        log.info("새로만든 주식 목록이ㅣ 기존 주식보다 크다 = {}",result);
+        return result;
     }
 
     public boolean passMinuteLastCheck(String time,int diff) throws ParseException {

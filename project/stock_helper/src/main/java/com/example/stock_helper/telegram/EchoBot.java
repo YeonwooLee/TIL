@@ -100,7 +100,16 @@ public class EchoBot extends TelegramLongPollingBot {
 
         }else if(userText.startsWith(Order.EXCUTE_CYBOS_PLUS.getOrderCode())){
             msg = runCybosPlus();
+        }else if(userText.startsWith(Order.MAKE_STOCK_LIST.getOrderCode())){
+            int newStockListSize = stockService.reportCurrentTime();//주식리스트 갱신
+
+            msg = String.format(Message.MAKE_STOCK_LIST_SUCCESS.getMsgFormat(),newStockListSize);
+        }else if(userText.startsWith(Order.GET_LAST_STOCK_LIST_SIZE.getOrderCode())){
+            long lastStockListSize = stockService.getLastStockListSize();//주식리스트 갱신
+            msg = String.format(Message.LAST_STOCK_LIST_SIZE.getMsgFormat(),lastStockListSize);
         }
+
+
 
         if(chatId.equals(Chat.STOCK_SEARCH.getChatId())){//채팅아이디가 이거면
             //이짓을 한다
@@ -170,8 +179,8 @@ public class EchoBot extends TelegramLongPollingBot {
                     amountRank,
                     marketCapitalization,
                     per,
-                    dayForeignNetPurchase,
-                    dayInstitutionalNetPurchase);
+                    dayInstitutionalNetPurchase,
+                    dayForeignNetPurchase);
             return result;
         }catch(RuntimeException e){
             if (e.getMessage().equals(String.format(MyErrorMsg.NO_STOCK_NAME_ERROR.getMsgFormat(),stockName))){

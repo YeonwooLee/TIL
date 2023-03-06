@@ -44,6 +44,9 @@ def InitPlusCheck():
  # 수익률 소수점 2자리까지 표기 -- 단순 포맷 변환 함수
 def calRiseRate(today_price, yesterday_price):
     # print(today_price, yesterday_price,'aa')
+    # print(round(today_price*100/yesterday_price-100,2))
+    if yesterday_price==0: 
+        return 0.9
     return round(today_price*100/yesterday_price-100,2)
     
 class CpMarketEye:
@@ -103,16 +106,20 @@ class CpMarketEye:
             
             riseRate = calRiseRate(tdict['현재가'],tdict['전일종가']) #상승률
             tdict['상승률']=riseRate
+
+            #TODO 순위있는 필드 통합 관리
             #순위용 필드들 처리
             dataInfo['riseRates'].append(riseRate) #전체 상승률 리스트에 삽입
             dataInfo['transactionAmountRates'].append(tdict['거래대금'])#전체 거래대금 리스트에 삽입\
             dataInfo['perRates'].append(tdict['per'])
+
 
             dataInfo['stockInfo'][stockCode]= tdict #데이터정보에 투입
         return True
  
 class CMarketTotal():
     def __init__(self):
+        #TODO 순위있는 필드 통합 관리
         self.dataInfo = {
             'perRates': [],
             'riseRates':[],
@@ -143,6 +150,7 @@ class CMarketTotal():
         if len(rqCodeList) > 0: #요청안한 잔여 (1~199개) 종목 검색
             objMarket.Request(rqCodeList, self.dataInfo)
         
+        #TODO 순위있는 필드 통합 관리
         self.dataInfo['riseRates'].sort(reverse=True)
         self.dataInfo['transactionAmountRates'].sort(reverse=True)
         self.dataInfo['perRates'].sort()
