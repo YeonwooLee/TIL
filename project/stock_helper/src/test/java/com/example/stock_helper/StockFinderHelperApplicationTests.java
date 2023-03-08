@@ -1,5 +1,6 @@
 package com.example.stock_helper;
 
+import com.example.stock_helper.python.cybos5.CybosException;
 import com.example.stock_helper.stock.Stock;
 import com.example.stock_helper.python.StockFinder;
 import com.example.stock_helper.stock.StockRepository;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
 import java.util.List;
 
 @SpringBootTest
@@ -19,7 +21,7 @@ class StockFinderHelperApplicationTests {
 
 
 	@Test
-	public void 파이썬에서전체주식리스트생성(){
+	public void 파이썬에서전체주식리스트생성() throws IOException, CybosException {
 	    //given
 
 	    //when
@@ -32,7 +34,7 @@ class StockFinderHelperApplicationTests {
 	}
 
 	@Test
-	public void 주식저장(){
+	public void 주식저장() throws IOException, CybosException {
 	    //given
 		List<Stock> stocks = stockFinder.getStocks();
 		Stock stock = stocks.get(0);

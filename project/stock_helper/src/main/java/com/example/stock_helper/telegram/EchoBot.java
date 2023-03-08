@@ -1,5 +1,6 @@
 package com.example.stock_helper.telegram;
 import com.example.stock_helper.python.CybosConnection;
+import com.example.stock_helper.python.cybos5.CybosException;
 import com.example.stock_helper.stock.Stock;
 import com.example.stock_helper.python.StockFinder;
 import com.example.stock_helper.stock.StockService;
@@ -8,6 +9,7 @@ import com.example.stock_helper.telegram.strings.Message;
 import com.example.stock_helper.telegram.strings.MyErrorMsg;
 import com.example.stock_helper.telegram.strings.Order;
 import com.example.stock_helper.util.MyConverter;
+import com.example.stock_helper.util.crawling.MyCrawler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -19,17 +21,24 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 
+import static com.example.stock_helper.telegram.strings.Message.RE_CONNECT_ALERT;
 import static com.example.stock_helper.telegram.strings.Message.TODAY_HOT_STOCK_MSG_HEADER;
 
 @RequiredArgsConstructor
 @Component
 public class EchoBot extends TelegramLongPollingBot {
+
     private final StockFinder stockFinder;
     private final MyConverter myConverter;
     private final CybosConnection cybosConnection;
     private final StockService stockService;
+    private final MyCrawler myCrawler;
+
+
+    private final String ROOM_STOCK_SEARCH = "-856041870";
 
     @Override
     public String getBotUsername() {
@@ -45,7 +54,12 @@ public class EchoBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
 
         if (update.hasMessage() && update.getMessage().hasText()) {
-            var mensagem = responder(update);
+            SendMessage mensagem = null;
+            try {
+                mensagem = responder(update);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
             // System.out.println("받은 메시지 정보 = " + mensagem);
             try {
                 execute(mensagem);
@@ -53,6 +67,7 @@ public class EchoBot extends TelegramLongPollingBot {
                 //개씹임시추가시작
                 var chatId = update.getMessage().getChatId().toString();
                 var temp = "데이터 기준시" + stockService.getLastTime();
+                temp+=chatId;
 
                 execute(SendMessage.builder()
                         .text(temp)
@@ -64,8 +79,13 @@ public class EchoBot extends TelegramLongPollingBot {
             }
         }
     }
-
-    private SendMessage responder(Update update) {
+    public void sendMsg(String chatId, String msg) throws TelegramApiException {
+        execute(SendMessage.builder()
+                .text(msg)
+                .chatId(chatId)
+                .build());
+    }
+    private SendMessage responder(Update update) throws TelegramApiException {
         var userText = update.getMessage().getText(); //들어온 채팅
         var chatId = update.getMessage().getChatId().toString();
         String order = "";
@@ -101,12 +121,40 @@ public class EchoBot extends TelegramLongPollingBot {
         }else if(userText.startsWith(Order.EXCUTE_CYBOS_PLUS.getOrderCode())){
             msg = runCybosPlus();
         }else if(userText.startsWith(Order.MAKE_STOCK_LIST.getOrderCode())){
-            int newStockListSize = stockService.reportCurrentTime();//주식리스트 갱신
+            int newStockListSize = 0;//주식리스트 갱신
+            try {
+                newStockListSize = stockService.reportCurrentTime();
+                msg = String.format(Message.MAKE_STOCK_LIST_SUCCESS.getMsgFormat(),newStockListSize);
+            } catch (IOException e) {
+                msg = e.getMessage();
+                // e.printStackTrace();
+            } catch (CybosException e){
+                msg = e.getMessage()+RE_CONNECT_ALERT.getMsgFormat();
+                sendMsg(ROOM_STOCK_SEARCH,msg);
 
-            msg = String.format(Message.MAKE_STOCK_LIST_SUCCESS.getMsgFormat(),newStockListSize);
+                msg = runCybosPlus();
+
+                // e.printStackTrace();
+            }
+
+
         }else if(userText.startsWith(Order.GET_LAST_STOCK_LIST_SIZE.getOrderCode())){
             long lastStockListSize = stockService.getLastStockListSize();//주식리스트 갱신
             msg = String.format(Message.LAST_STOCK_LIST_SIZE.getMsgFormat(),lastStockListSize);
+        }
+        else if(userText.startsWith(Order.STOCK_DICTIONARY.getOrderCode())){
+            order = userText.replace(Order.STOCK_DICTIONARY.getOrderCode(), "");//ㅡㅡ를 ""로
+            Map map = null;
+            String error = "";
+            try {
+                map = myCrawler.temp();
+            } catch (InterruptedException e) {
+                error = e.getMessage();
+                e.printStackTrace();
+            }finally {
+                msg=(map==null)?error:String.format(Message.STOCK_DICT_MESSAGE.getMsgFormat(),order,map.getOrDefault(order,"정보 없음"));
+            }
+
         }
 
 
@@ -137,7 +185,7 @@ public class EchoBot extends TelegramLongPollingBot {
         boolean result;
         try {
             result = cybosConnection.runCybos(); // 연결성공
-        } catch (IOException e) {
+        } catch (IOException | CybosException e) {
             e.printStackTrace();
             result = false; //연결실패
         }

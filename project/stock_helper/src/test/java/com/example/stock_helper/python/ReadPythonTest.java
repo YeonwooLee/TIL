@@ -1,18 +1,19 @@
 package com.example.stock_helper.python;
 
+import com.example.stock_helper.python.cybos5.CybosException;
 import com.example.stock_helper.stock.Stock;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 
 class ReadPythonTest {
     @Autowired
     ReadPython readPython;
     @Test
-    public void 파이썬_임시_테스트(){
+    public void 파이썬_임시_테스트() throws IOException, CybosException {
         //given
 
         //when
@@ -23,7 +24,7 @@ class ReadPythonTest {
     }
 
     @Test
-    public void 파이썬_받아오기_테스트() throws UnsupportedEncodingException {
+    public void 파이썬_받아오기_테스트() throws IOException, CybosException {
         //given
         String findStockName = "삼성전자";
 

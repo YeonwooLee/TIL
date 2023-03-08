@@ -6,18 +6,18 @@ import sys
 import json
 from const import rqParam
 from datetime import datetime
+from cybosConnectionChecker import connectionOk
+
+try:
+    connectionOk()
+except ConnectionError as e:
+    print(e)
+    quit()
+#종목명을 코드로
 
 allStockDict = makeAllStockDict() #기본 주식
 
-# 연결 여부 체크 - 0 = 연결ㄴㄴ, 1 = 연결 ㅇㅇ / 현재 정상 작동 안함
-def check_connect():
-    objCpCybos = win32com.client.Dispatch("CpUtil.CpCybos")
-    bConnect = objCpCybos.IsConnect
-    if (bConnect == 0):
-        print("PLUS가 정상적으로 연결되지 않음. ")
-    return True
 
-#종목명을 코드로
 def nameToCode(name):
     objCpStockCode = win32com.client.Dispatch("CpUtil.CpStockCode")
     code = objCpStockCode.NameToCode(name)

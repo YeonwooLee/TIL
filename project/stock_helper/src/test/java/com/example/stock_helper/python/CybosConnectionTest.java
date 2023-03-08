@@ -1,5 +1,6 @@
 package com.example.stock_helper.python;
 
+import com.example.stock_helper.python.cybos5.CybosException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +16,7 @@ class CybosConnectionTest {
     CybosConnection cybosConnection;
     
     @Test
-    public void 싸이보스플러스연결테스트() throws IOException {
+    public void 싸이보스플러스연결테스트() throws IOException, CybosException {
         //given
         
         //when

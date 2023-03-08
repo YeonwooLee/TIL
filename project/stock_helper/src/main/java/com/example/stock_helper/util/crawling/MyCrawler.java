@@ -1,25 +1,40 @@
 package com.example.stock_helper.util.crawling;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
+@RequiredArgsConstructor
 public class MyCrawler {
-    public static Map<String,String> temp() throws InterruptedException {
-        // Set up the WebDriver using WebDriverManager
+    private final ChromeOptions chromeOption;
+    public Map<String,String> temp() throws InterruptedException {
+
+        // 옵션
+        // 옵션만 싱글톤화
+        // ChromeOptions options = new ChromeOptions();
+        // options.addArguments("headless");
 
         // Create a new instance of the ChromeDriver
-        WebDriver driver = WebDriverManager.chromedriver().create();
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver(chromeOption);
 
-        // driver.get("https://bonigarcia.dev/selenium-webdriver-java/");
-        // driver.findElement(By.partialLinkText("form")).click();
+
+
+        driver.get("https://bonigarcia.dev/selenium-webdriver-java/");
+        driver.findElement(By.partialLinkText("form")).click();
 
         // Navigate to the desired webpage
         driver.get("https://blog.naver.com/nazoosikwang");
@@ -60,7 +75,5 @@ public class MyCrawler {
         driver.quit();
 
         return map;
-
-
     }
 }

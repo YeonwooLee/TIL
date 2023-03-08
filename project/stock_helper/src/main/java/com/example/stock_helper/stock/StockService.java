@@ -1,6 +1,7 @@
 package com.example.stock_helper.stock;
 
 import com.example.stock_helper.python.StockFinder;
+import com.example.stock_helper.python.cybos5.CybosException;
 import com.example.stock_helper.telegram.strings.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -26,14 +28,14 @@ public class StockService {
 
     //30분마다 업뎃침
     @Scheduled(cron = "30 */30 * * * *") //
-    public void scheduledReportCurrentTime(){
+    public void scheduledReportCurrentTime() throws IOException, CybosException {
         reportCurrentTime();
     }
 
     //주식 최신화 with python
     // @Scheduled(cron = "30 */30 * * * *") //
     @Transactional
-    public int reportCurrentTime() {
+    public int reportCurrentTime() throws IOException, CybosException {
         // stockFinder.setTempStock(stockFinder.getStocks());
         log.info("주식리스트 갱신 {}", dateFormat.format(new Date()));
         String lastCheckTime= getLastTime();//최초 리스트 작성 시점

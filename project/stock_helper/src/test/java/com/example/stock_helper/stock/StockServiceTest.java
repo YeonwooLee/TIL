@@ -1,10 +1,12 @@
 package com.example.stock_helper.stock;
 
+import com.example.stock_helper.python.cybos5.CybosException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,7 +16,7 @@ class StockServiceTest {
     @Autowired
     StockService stockService;
     @Test
-    public void 전체종목파이썬검색후db에넣기(){
+    public void 전체종목파이썬검색후db에넣기() throws IOException, CybosException {
         //given
 
         //when

@@ -15,7 +15,9 @@ public enum Message {
     MAKE_STOCK_LIST_SUCCESS("%d개 주식리스트갱신성공"),
     MAKE_STOCK_LIST_FAIL("주식리스트갱신실패"),
     LAST_STOCK_LIST_SIZE("마지막 주식 리스트 크기 = %d"),
-    CONNECT_FAIL("연결실패");
+    CONNECT_FAIL("연결실패"),
+    STOCK_DICT_MESSAGE("%s\n>>>%s"),
+    RE_CONNECT_ALERT("연결을 재시도합니다 반응이 올 때까지 대기해주세요.");
 
     Message(String msgFormat){
         this.msgFormat = msgFormat;

@@ -1,5 +1,6 @@
 package com.example.stock_helper.python;
 
+import com.example.stock_helper.python.cybos5.CybosException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +14,7 @@ import java.io.*;
 public class CybosConnection {
     private final ReadPython readPython;
 
-    public boolean runCybos() throws IOException {
+    public boolean runCybos() throws IOException, CybosException {
         log.info("CYBOS를 실행합니다");
         ObjectMapper mapper = new ObjectMapper();
         String workingDir = System.getProperty("user.dir");

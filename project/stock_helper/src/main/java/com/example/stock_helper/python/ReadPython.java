@@ -1,10 +1,13 @@
 package com.example.stock_helper.python;
 
+import com.example.stock_helper.python.cybos5.CybosException;
+import com.example.stock_helper.telegram.strings.PyErrorMsg;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.HashMap;
@@ -13,7 +16,7 @@ import java.util.Map;
 @Slf4j
 @Component
 public class ReadPython {
-    public <T> T readPythonFile(Class<T> responseType,String pythonProgramName, String[] args) {
+    public <T> T readPythonFile(Class<T> responseType,String pythonProgramName, String[] args) throws IOException, CybosException {
         //Group = com.mysite
         //Artifact = sbb
         //내부 패키지 = python
@@ -28,20 +31,21 @@ public class ReadPython {
         System.out.println("python command is " + command);
         String result = "";
         T mo = null;
-        try {
-            System.setProperty("PYTHONIOENCODING", "UTF-8");
-            Process p = Runtime.getRuntime().exec(command);
+
+        System.setProperty("PYTHONIOENCODING", "UTF-8");
+        Process p = Runtime.getRuntime().exec(command);
 
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream(),"UTF-8"));
-            String output = in.readLine(); //파이썬 dict 형식으로 출력(print)
-            // System.out.println("output = " + output);
+        BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream(),"UTF-8"));
+        String output = in.readLine(); //파이썬 dict 형식으로 출력(print)
 
-            mo = new Gson().fromJson(output, responseType);//파이썬 dict형식 출력을 MyObject형식으로 변경
-        } catch (Exception e) {
-            e.printStackTrace();
+        //ERROR 처리
+        if(output.contains(PyErrorMsg.NO_STOCK_NAME_ERROR.getMsgFormat())){
+            throw new CybosException(PyErrorMsg.NO_STOCK_NAME_ERROR.getMsgFormat());
         }
-        if(mo==null) throw new RuntimeException("python 반환값 null");
+
+
+        mo = new Gson().fromJson(output, responseType);//파이썬 dict형식 출력을 MyObject형식으로 변경
         return mo;
     }
 }
