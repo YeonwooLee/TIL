@@ -20,6 +20,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MyCrawler {
     private final ChromeOptions chromeOption;
+    private final WebDriver driver;
     public Map<String,String> temp() throws InterruptedException {
 
         // 옵션
@@ -28,13 +29,13 @@ public class MyCrawler {
         // options.addArguments("headless");
 
         // Create a new instance of the ChromeDriver
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver(chromeOption);
+        // WebDriverManager.chromedriver().setup();
+        // WebDriver driver = new ChromeDriver(chromeOption);
 
 
 
-        driver.get("https://bonigarcia.dev/selenium-webdriver-java/");
-        driver.findElement(By.partialLinkText("form")).click();
+        // driver.get("https://bonigarcia.dev/selenium-webdriver-java/");
+        // driver.findElement(By.partialLinkText("form")).click();
 
         // Navigate to the desired webpage
         driver.get("https://blog.naver.com/nazoosikwang");
@@ -72,7 +73,7 @@ public class MyCrawler {
             map.put(key,vals.toString());
         }
         // Close the WebDriver
-        driver.quit();
+        // driver.quit();
 
         return map;
     }

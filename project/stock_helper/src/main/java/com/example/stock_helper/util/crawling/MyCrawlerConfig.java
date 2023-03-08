@@ -14,12 +14,12 @@ import org.springframework.context.annotation.Lazy;
 옵션은 괜찮으니 옵션만 빈으로
 */
 public class MyCrawlerConfig {
-    // private WebDriver driver;
+    private WebDriver driver;
     private ChromeOptions options;
 
 
 
-    /*
+
     @Bean
     @Lazy
     public WebDriver getWebDriver() {
@@ -31,7 +31,7 @@ public class MyCrawlerConfig {
         }
         return driver;
     }
-    */
+
     @Bean
     @Lazy
     public ChromeOptions getChromeOptions() {
