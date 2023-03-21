@@ -26,6 +26,7 @@ public class MyCrawlerConfig {
         if (driver == null) {
             options = new ChromeOptions();
             options.addArguments("headless");
+            options.addArguments("--remote-allow-origins=*");
             WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver(options);
         }
