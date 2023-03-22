@@ -17,7 +17,8 @@ public enum Message {
     LAST_STOCK_LIST_SIZE("마지막 주식 리스트 크기 = %d"),
     CONNECT_FAIL("연결실패"),
     STOCK_DICT_MESSAGE("%s\n>>>%s"),
-    RE_CONNECT_ALERT("연결을 재시도합니다 반응이 올 때까지 대기해주세요.");
+    RE_CONNECT_ALERT("연결을 재시도합니다 반응이 올 때까지 대기해주세요."),
+    ZOOSIKSAJUN("%s\n>>>%s\n기준시:%s");
 
     Message(String msgFormat){
         this.msgFormat = msgFormat;

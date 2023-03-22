@@ -10,6 +10,10 @@ import com.example.stock_helper.telegram.strings.MyErrorMsg;
 import com.example.stock_helper.telegram.strings.Order;
 import com.example.stock_helper.util.MyConverter;
 import com.example.stock_helper.util.crawling.MyCrawler;
+import com.example.stock_helper.util.crawling.realCrawler.ZoosikSajun;
+import com.example.stock_helper.util.crawling.realCrawler.ZoosikSajunRepository;
+import com.example.stock_helper.util.crawling.realCrawler.ZoosikSajunService;
+import com.example.stock_helper.util.crawling.realCrawler.ZoosikWangCrawler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -35,7 +39,10 @@ public class EchoBot extends TelegramLongPollingBot {
     private final MyConverter myConverter;
     private final CybosConnection cybosConnection;
     private final StockService stockService;
-    private final MyCrawler myCrawler;
+
+    // private final MyCrawler myCrawler;
+    // private final ZoosikWangCrawler zoosikWangCrawler;
+    private final ZoosikSajunService zoosikSajunService;
 
 
     private final String ROOM_STOCK_SEARCH = "-856041870";
@@ -144,16 +151,16 @@ public class EchoBot extends TelegramLongPollingBot {
         }
         else if(userText.startsWith(Order.STOCK_DICTIONARY.getOrderCode())){
             order = userText.replace(Order.STOCK_DICTIONARY.getOrderCode(), "");//ㅡㅡ를 ""로
-            Map map = null;
-            String error = "";
-            try {
-                map = myCrawler.temp();
-            } catch (InterruptedException e) {
-                error = e.getMessage();
-                e.printStackTrace();
-            }finally {
-                msg=(map==null)?error:String.format(Message.STOCK_DICT_MESSAGE.getMsgFormat(),order,map.getOrDefault(order,"정보 없음"));
+            try{
+                ZoosikSajun lastZoosikByName = zoosikSajunService.findLastZoosikByName(order);
+                String theme = lastZoosikByName.getTheme();
+                String searchTime = lastZoosikByName.getSearchTime();
+                msg = String.format(Message.ZOOSIKSAJUN.getMsgFormat(),order,theme,searchTime);
+            }catch (RuntimeException e){
+                msg=e.getMessage();
             }
+
+
 
         }
 
