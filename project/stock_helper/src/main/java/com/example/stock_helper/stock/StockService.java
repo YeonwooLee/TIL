@@ -1,5 +1,6 @@
 package com.example.stock_helper.stock;
 
+import com.example.stock_helper.python.CybosConnection;
 import com.example.stock_helper.python.StockFinder;
 import com.example.stock_helper.python.cybos5.CybosException;
 import com.example.stock_helper.telegram.strings.Message;
@@ -24,10 +25,12 @@ import static com.example.stock_helper.telegram.strings.MyErrorMsg.NO_STOCK_NAME
 public class StockService {
     private final StockFinder stockFinder;
     private final StockRepository stockRepository;
+    private final CybosConnection cybosConnection;
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     //30분마다 업뎃침
     @Scheduled(cron = "30 */30 * * * *") //
+    // @Scheduled(cron = "30 */1 * * * *") //
     public void scheduledReportCurrentTime() throws IOException, CybosException {
         reportCurrentTime();
     }
@@ -41,8 +44,20 @@ public class StockService {
         String lastCheckTime= getLastTime();//최초 리스트 작성 시점
 
 
+        boolean flag = true;
+        List<Stock> stocks = new ArrayList<>();
         //TODO db에 주식 리스트 갱신 현재시간+주식코드 = pk, 주식명, 현재가, 등수 등
-        List<Stock> stocks = stockFinder.getStocks();
+        try{
+            stocks = stockFinder.getStocks();
+        }catch(CybosException e){
+            cybosConnection.runCybos();
+            stocks = stockFinder.getStocks();
+        }finally {
+            if(stocks.size()==0){
+                throw new RuntimeException("주식 리스트 갱신 실패");
+            }
+        }
+
         boolean isOk = validateStockList(stocks,lastCheckTime);
         log.info("isOk={}",isOk);
         log.info("isOk="+isOk);

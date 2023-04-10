@@ -130,8 +130,8 @@ public class EchoBot extends TelegramLongPollingBot {
         }else if(userText.startsWith(Order.MAKE_STOCK_LIST.getOrderCode())){
             int newStockListSize = 0;//주식리스트 갱신
             try {
-                newStockListSize = stockService.reportCurrentTime();
-                msg = String.format(Message.MAKE_STOCK_LIST_SUCCESS.getMsgFormat(),newStockListSize);
+                msg = mkNesStockList();
+
             } catch (IOException e) {
                 msg = e.getMessage();
                 // e.printStackTrace();
@@ -140,7 +140,9 @@ public class EchoBot extends TelegramLongPollingBot {
                 sendMsg(ROOM_STOCK_SEARCH,msg);
 
                 msg = runCybosPlus();
-
+                if(msg.equals(Message.CONNECT_SUCCESS.getMsgFormat())){
+                    msg = "연결성공";
+                }
                 // e.printStackTrace();
             }
 
@@ -180,7 +182,12 @@ public class EchoBot extends TelegramLongPollingBot {
                 .build();
     }
 
-
+    private String mkNesStockList() throws IOException, CybosException {
+        String msg = "";
+        int newStockListSize = stockService.reportCurrentTime();
+        msg = String.format(Message.MAKE_STOCK_LIST_SUCCESS.getMsgFormat(),newStockListSize);
+        return msg;
+    }
     private boolean makeUsableState() throws ParseException {
         //TODO 이거 구현
         stockService.passMinuteLastCheck("currentTime",3);
@@ -192,6 +199,7 @@ public class EchoBot extends TelegramLongPollingBot {
         boolean result;
         try {
             result = cybosConnection.runCybos(); // 연결성공
+            mkNesStockList();
         } catch (IOException | CybosException e) {
             e.printStackTrace();
             result = false; //연결실패
