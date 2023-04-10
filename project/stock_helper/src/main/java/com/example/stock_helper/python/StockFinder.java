@@ -1,5 +1,6 @@
 package com.example.stock_helper.python;
 
+import com.example.stock_helper.PathString;
 import com.example.stock_helper.python.cybos5.CybosException;
 import com.example.stock_helper.stock.Stock;
 import com.example.stock_helper.stock.StockService;
@@ -22,10 +23,10 @@ import static com.example.stock_helper.telegram.strings.MyErrorMsg.NO_STOCK_NAME
 public class StockFinder {
     private final ReadPython readPython;
 
-
+    static PathString pathString = PathString.getInstance();
     //전체 주식 리스트
     public List<Stock> getStocks() throws IOException, CybosException {
-        Stock[] stocks = readPython.readPythonFile(Stock[].class, "cybos5\\allStockInfo", new String[]{""});
+        Stock[] stocks = readPython.readPythonFile(Stock[].class, "allStockInfo", new String[]{""});
         return Arrays.asList(stocks);
     }
 

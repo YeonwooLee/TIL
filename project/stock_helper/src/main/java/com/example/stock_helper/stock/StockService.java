@@ -35,7 +35,7 @@ public class StockService {
         reportCurrentTime();
     }
 
-    //주식 최신화 with python
+    //주식 최신화 with pythonScript
     // @Scheduled(cron = "30 */30 * * * *") //
     @Transactional
     public int reportCurrentTime() throws IOException, CybosException {

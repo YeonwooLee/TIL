@@ -1,10 +1,10 @@
-
+# -*- coding: utf-8 -*-
 import pyautogui
 import datetime
 import sys
 import time
 import json
-
+import os
 # python -m pip install --upgrade pip
 # pip install pyautogui
 # pip install pip install pypiwin32
@@ -57,22 +57,30 @@ def disappear(imgFileName,confidence):
         pass
 
 if __name__ == "__main__":
+    script_path = os.path.abspath(__file__)
+
+    # 현재 스크립트 파일이 있는 디렉토리 경로
+    script_dir = os.path.dirname(script_path)
+    # print("adfasdfasdf",script_dir)
     waitMax = int(sys.argv[1:][0])
     # print(waitMax)
-
-    confirm_exit_cp = 'C:\\my2023programs\\TIL\\project\\stock_helper\\src\\main\\java\\com\\example\\stock_helper\\python\\util\\gui\\python\\image\\confirm_exit_cp.png'
-    confirm_exit_cp_yes = 'C:\\my2023programs\\TIL\\project\\stock_helper\\src\\main\\java\\com\\example\\stock_helper\\python\\util\\gui\\python\\image\\confirm_exit_cp_yes.png'
+#C:\\my2023programs\\TIL\\project\\stock_helper\\out\\production\\resources\\pythonScript\\gui\\pyCode
+    
+    confirm_exit_cp = script_dir+'\\image\\confirm_exit_cp.png'
+    confirm_exit_cp_yes = script_dir+'\\image\\confirm_exit_cp_yes.png'
+    # print(confirm_exit_cp)
+    # print(confirm_exit_cp_yes)
     flag = False
     for sec in range(waitMax):
-        conFirmExist = imgExistWithConfidence(confirm_exit_cp,0.95)['exist']
+        conFirmExist = imgExistWithConfidence(confirm_exit_cp,0.85)['exist']
         if conFirmExist:
             # print(conFirmExist)
-            mouseToImgAndClick(confirm_exit_cp_yes,0.95)
+            mouseToImgAndClick(confirm_exit_cp_yes,0.85)
             flag = True
             break
         time.sleep(1)
 
-    mouseToImgAndClick("C:\\my2023programs\\TIL\\project\\stock_helper\\src\\main\\java\\com\\example\\stock_helper\\python\\util\\gui\\python\\image\\min_size_btn.png",0.95)
+    mouseToImgAndClick(script_dir+"\\image\\min_size_btn.png",0.85)
 
             
     if flag:
