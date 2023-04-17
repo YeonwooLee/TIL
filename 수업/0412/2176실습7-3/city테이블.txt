@@ -1,0 +1,6 @@
+<city테이블>
+Id                   도시번호
+Name              도시명
+CountryCode     나라(국가)코드
+District             지역,지구
+Population        인구

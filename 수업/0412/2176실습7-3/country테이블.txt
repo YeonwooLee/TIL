@@ -1,0 +1,16 @@
+<country테이블>
+Code                 나라(국가)코드
+Name                나라(국가)명
+Continent           대륙
+Region               지역 지방
+SurfaceArea         면적
+IndepYear           독립년도(정부수립)
+Population          인구
+LifeExpectancy     기대수명
+GNP
+GNPOld
+LocalName
+GovernmentForm  지배형태
+HeadOfState        국가원수
+Capital                수도코드
+Code2                나라(국가) 축약 코드 

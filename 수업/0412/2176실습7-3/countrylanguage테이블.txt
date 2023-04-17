@@ -1,0 +1,5 @@
+<countrylanguage테이블>
+CountryCode      나라(국가)코드        
+Language           사용언어
+isOfficial            공식언어
+Percentage         언어사용율
