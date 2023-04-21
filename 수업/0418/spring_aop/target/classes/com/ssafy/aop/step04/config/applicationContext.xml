@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/ssafyweb?serverTimezone=UTC&amp;useUniCode=yes&amp;characterEncoding=UTF-8"/>
+		<property name="username" value="ssafy"/>
+		<property name="password" value="ssafy"/>
+	</bean>
+	
+	<bean id="dbUtil" class="com.ssafy.util.DBUtil"/>
+	
+	<bean id="boardDao" class="com.ssafy.board.model.dao.BoardDaoImpl">
+		<constructor-arg ref="dataSource"/>
+		<constructor-arg ref="dbUtil"/>
+	</bean>
+	
+	<bean id="boardService" class="com.ssafy.board.model.service.BoardServiceImpl">
+		<constructor-arg ref="boardDao"/>
+	</bean>
+	
+	<bean id="boardController" class="com.ssafy.board.controller.BoardController">
+		<constructor-arg ref="boardService"/>
+	</bean>
+	
+	<!-- AOP 설정 -->
+	<bean id="exceptionAdvice" class="com.ssafy.aop.step04.after.throwing.ExceptionAdvice"></bean>
+	
+	<!--  com.ssafy.board package안에 있는 Dao로 끝나는 모든 클래스의 모든 메소드에 적용 -->
+	<aop:config>
+		<aop:aspect id="exceptionAspect" ref="exceptionAdvice">
+			<aop:pointcut id="publicMethod" expression="execution(public * com.ssafy.board..*Dao.*(..))"/>
+			<!-- exception이 발생했을경우 호출 -->
+			<aop:after-throwing method="exceptionAfter" pointcut-ref="publicMethod" throwing="ex"/>
+		</aop:aspect>
+	</aop:config>
+
+</beans>
