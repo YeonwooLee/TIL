@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- v-model -->
+            <!-- 양방향 바인딩 -->
+            <!-- 영어 말고는 다음 글자 쳐야 나오는 문제 input이벤트로 처리해야함(여기선 스킵) -->
+            <!-- value등으로 초깃값 처리 불가능(양방향 바인딩 되어있기 때문에) -->
+            <input type="text" v-model="msg" value="초깃값 안나옴"/>
+            <div>{{msg}}</div>
+        </div>
+
+        
+
+        
+        <script>
+            const app = new Vue({
+                el:'#app', //CSS선택자
+                data(){
+                    return{
+                        msg:"",
+                    };
+                },
+            });
+
+        </script>
+    </body>
+</html>

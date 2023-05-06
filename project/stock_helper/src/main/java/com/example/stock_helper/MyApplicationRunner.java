@@ -19,13 +19,13 @@ public class MyApplicationRunner implements ApplicationRunner {
     private final CybosConnection cybosConnection;
     private final StockService stockService;
     private final EchoBot echoBot;
+
     @Override
     public void run(ApplicationArguments args) throws IOException, CybosException, TelegramApiException {
         // return;
         echoBot.sendMsg("-856041870","프로그램 시작");
         cybosConnection.runCybos();
+
         stockService.reportCurrentTime();
-
-
     }
 }

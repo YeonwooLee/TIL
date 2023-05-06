@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h2>{{msg}}</h2>
+    </div>
+
+    <div id="app2">
+        <h1>{{msg}}</h1>
+    </div>
+
+    <div id="app3">
+        {{count}}
+    </div>
+    
+    <script>
+        //Vue 인스턴스 생성
+        //el: 뷰 객체를마운트(연결)
+        //1. Css 선택자
+        //2. HTML 요소를 직접 가지고 와서 선택
+            
+        new Vue({
+            el:'#app',
+            //const content = document.getElementById('app')
+            //el:content
+            data:{
+                msg: 'hello ssafy',
+            },
+        });
+
+        new Vue({
+            el:'#app2',
+            data(){
+                return {
+                    msg:'totoga',
+                }
+            },
+        });
+
+        const app3 = new Vue({
+            el:'#app3',
+            data(){
+                return {
+                    count:1,
+                }
+            },
+            methods:{
+                add(){
+                    this.count++
+                }
+            },
+        });
+    </script>
+</body>
+</html>

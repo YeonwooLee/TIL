@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <h2>{{msg}}</h2>
+
+            <!-- v-html: 실제로 코드를 html로 해석-->
+            <!-- 아래와 같이 쓰면 h2태그 안에 h1태그 들어감 <h2><h1></h1></h2> -->
+            <h2 v-html="msg"></h2>
+        </div>
+
+        
+
+        
+        <script>
+            const app = new Vue({
+                el:'#app', //CSS선택자
+                data(){
+                    return{
+                        msg:'<h1 style="color:red">이 글은 빨간색 입니다</h1>',
+                    }
+                },
+            });
+
+        </script>
+    </body>
+</html>

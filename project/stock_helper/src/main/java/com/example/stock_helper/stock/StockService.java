@@ -173,13 +173,13 @@ public class StockService {
         long newStockListSize = newStocks.size();
         log.info("최근 주식 사이즈 = {}",newStocks.size());
 
-        boolean result = (newStockListSize>=lastStockListSize)?true:false;
+        boolean result = (newStockListSize>=lastStockListSize-15)?true:false;
         log.info("새로만든 주식 목록이ㅣ 기존 주식보다 크다 = {}",result);
         return result;
     }
 
     public boolean passMinuteLastCheck(String time,int diff) throws ParseException {
-        //TODO 마지막 검색 시간보다 3분 이상 지났으면 reportCurrentTime()
+        //TODO 마지막 검색 시간보다 3분 이상 지났으면 reportCurrentTime() 
         //TODO String input = "2023-02-08 00:00:00.000"을 시간화 하는 것부터 시작
         return true;
     }

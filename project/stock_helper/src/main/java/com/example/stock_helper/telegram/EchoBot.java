@@ -69,7 +69,27 @@ public class EchoBot extends TelegramLongPollingBot {
             }
             // System.out.println("받은 메시지 정보 = " + mensagem);
             try {
-                execute(mensagem);
+                try {
+                    execute(mensagem);
+                }catch(TelegramApiException e){
+                    if(e.getMessage().contains("message is too long")){
+                        String longMsg = mensagem.getText();
+                        String front = longMsg.substring(0,longMsg.length()/2);
+                        String back = longMsg.substring(longMsg.length()/2);
+                        System.out.println(mensagem.getChatId());
+
+                        execute(SendMessage.builder()
+                                .text(front)
+                                .chatId(mensagem.getChatId())
+                                .build());
+                        execute(SendMessage.builder()
+                                .text(back)
+                                .chatId(mensagem.getChatId())
+                                .build());
+                    }else{
+                        e.printStackTrace();
+                    }
+                }
 
                 //개씹임시추가시작
                 var chatId = update.getMessage().getChatId().toString();

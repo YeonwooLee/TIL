@@ -45,7 +45,7 @@ public class CybosConnection {
         BufferedReader br = new BufferedReader(isr);
 
         String s = readPython.readPythonFile(String.class, "gui\\pyCode\\guiController", new String[]{"20"});
-        System.out.println(s);
+        System.out.println("s is"+s);
         log.info("Cybos 실행 완료");
         return true;
     }
