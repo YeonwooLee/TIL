@@ -1,0 +1,39 @@
+<!-- 
+    표현식 값의 참 거짓을 기반으로 엘리먼트를 조건부 랜더링함
+    엘리먼트 및 포함된 디렉티브/컴포넌트는 토글하는동안 삭제되고 다시 작성됨
+    <template> 엘리먼트를 이용하여 v-if사용간으
+        최종 결과에는 <template> 엘리먼트는 포함 안 됨
+ -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- v-if/else -->
+            <h2>범퍼카</h2>
+            <input type="number" v-model="age"/>
+            <div>
+                요금:
+                <span v-if="age < 10">무료</span>
+                <span v-else-if="age < 20">2민원</span>
+                <span v-else-if="age < 30">5만원</span>
+                <span v-else>1억</span>
+            </div>
+            
+        </div>
+        <script>
+            const app = new Vue({
+                el:'#app', //CSS선택자
+                data(){
+                    return{
+                        age:10,
+                    };
+                },
+            });
+        </script>
+    </body>
+</html>

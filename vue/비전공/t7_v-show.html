@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- v-show: 항상 렌더링 되어있음 -->
+            <h1 v-show="ok">하위</h1>
+            <input type="text" v-model="msg"/>
+            <!-- trim은 좌우공백 제거
+            좌우공백제거하고 msg객체 길이가 0이 아니다 -->
+            <button v-show="msg.trim().length !==0">검색</button>
+        </div>
+        <script>
+            const app = new Vue({
+                el:'#app', //CSS선택자
+                data(){
+                    return{
+                        ok: false,
+                        msg:"hello",
+                    };
+                },
+            });
+        </script>
+    </body>
+</html>
