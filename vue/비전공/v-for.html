@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- v-for -->
+            <div>
+                <span v-for="i in 10">{{i}}<br/></span>
+            </div>
+
+            <div>
+                <h2>이름을 돌려보자</h2>
+                <ul>
+                    <li v-for="name in names">{{name}}<br/></li>
+                </ul>
+            </div>
+
+            <div>
+                <h2>인덱스와 함께 이름을 돌려보자</h2>
+                <ul>
+                    <li v-for="(name, index) in names">{{index+1}}: {{name}}<br/></li>
+                </ul>
+            </div>
+
+            <div>
+                <h2>객체 배열을 돌려보자</h2>
+                <ul>
+                    <li v-for="human in humans">{{human.name}} : {{human.age}}<br/></li>
+                </ul>
+            </div>
+        </div>
+
+        
+
+        
+        <script>
+            const app = new Vue({
+                el:'#app', //CSS선택자
+                data(){
+                    return{
+                        names:['김알파','박베타','최타조','김치타'],
+                        humans:[
+                            {
+                                name:'허재웅',
+                                age: 333,
+                            },
+                            {
+                                name:'곽형석',
+                                age:60,
+                            },
+                            {
+                                name:'조치원',
+                                age:13,
+                            },
+                        ]
+                    };
+                },
+            });
+
+        </script>
+    </body>
+</html>

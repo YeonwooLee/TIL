@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <button @click="greet">인사</button>
+        </div>
+
+        
+
+        
+        <script>
+            new Vue({
+                el:'#app', //CSS선택자
+                data(){
+                    return {
+                        name:"Yang",
+                    };
+                },
+                methods:{
+                    greet(){
+                        //메소드 안에서 사용하는 this는 vue instance를 가리킨다
+                        alert(`Hello ${this.name} !`)
+                    }
+                }
+            });
+
+        </script>
+    </body>
+</html>

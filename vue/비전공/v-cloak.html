@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <style>
+            [v-cloak]{
+                display:none;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <!-- v-on 
+                vue instance가 준비될 때까지 mustache 바인딩을 숨기는데 사용
+                [v-cloak]{display:none}과 같은 css 규칙과 함께 사용
+                vue instance가 준비되면 v-cloak는 제거됨
+            랜더링-->
+            <h2>1번 {{msg}}</h2>
+            <h1 v-cloak>2번 {{msg}}</h1>
+        </div>
+
+        
+
+        
+        <script>
+            //지연시켜서 랜더링 안 된 상황 임의로 재현
+            setTimeout(function(){
+                const app = new Vue({
+                    el:'#app', //CSS선택자
+                    data(){
+                        return{
+                            msg:"짝수이다.",
+                        };
+                    },
+                });    
+            },3000)
+            
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <!-- 
+
+            computed속성 대신 methods에 함수 정의하여 ㅅ용가능(최종 결과는 같음)
+            computed 속성은 종속 대상을 계산하여 저장해놓는다(캐싱)
+            즉 종속된 대상이 변경되지 않는 한 computed에 작성된 함수를 여러번 호출해도
+            계산을 다시 하지 않고 계산되어 있는 결과를 반환
+         -->
+        <div id="app">
+            <!-- Computed를 이용하여 문자열 뒤집기 -->
+            <div>
+                <input type="text" v-model="msg"/>
+                <p>원본 : {{msg}}</p>
+                <p>역순1 : {{reversedMsg}}</p>
+                <p>역순2 : {{reversedMsg}}</p>
+                <p>역순3 : {{reversedMsg}}</p>
+                <p>역순4 : {{reversedMsg}}</p>
+
+            </div>
+            
+        </div>
+
+
+        
+        <script>
+            const app = new Vue({
+                el:'#app', //CSS선택자
+                //vue 인스턴스가 갖는 데이터
+                data(){
+                    return{
+                        msg:'안녕하세요',
+                    };
+                },
+                //딱 한번만 계산하고 변화가 없다면 해당 값을 계속 사용한다
+                computed:{
+                    reversedMsg(){
+                        console.log("거꾸로 뒤집기");
+                        return this.msg.split('').reverse().join("");
+                    },
+                },
+            });
+
+        </script>
+    </body>
+</html>
