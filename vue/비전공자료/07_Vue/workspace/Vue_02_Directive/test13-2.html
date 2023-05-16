@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue Computed</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Method를 이용하여 문자열 뒤집기 -->
+      <div>
+        <input type="text" v-model="msg" />
+        <p>원본 : {{msg}}</p>
+        <p>역순1 : {{reversedMsg()}}</p>
+        <p>역순2 : {{reversedMsg()}}</p>
+        <p>역순3 : {{reversedMsg()}}</p>
+        <p>역순4 : {{reversedMsg()}}</p>
+      </div>
+    </div>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            msg: "안녕하세요",
+          };
+        },
+        methods: {
+          reversedMsg() {
+            console.log("거꾸로 뒤집기");
+            return this.msg.split("").reverse().join("");
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

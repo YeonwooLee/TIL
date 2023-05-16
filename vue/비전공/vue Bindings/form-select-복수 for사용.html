@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- 여러개 바인딩 -->
+            <h2>지망하는 캠퍼스를 고르세요.</h2>
+            <!-- multiple 옵션으로 여러개 선택 가능
+                select로 복수 선택을 하는 것은 불편하다
+             -->
+            <select v-model="campus">
+                <!-- :value를 이용해 vbind   -->
+                <option v-for="area in areas" :value="area.value">
+                    {{area.name}}
+
+                </option>
+            </select>
+            
+            <div v-if="campus">
+                <p>나의 캠퍼스는 ~{{campus}}</p>
+            </div>
+        </div>
+
+
+
+
+        
+        <script>
+            const app = new Vue({
+                el:'#app',
+                data(){
+                    return{
+                        campus  :[],
+                        areas:[
+                            {
+                                name:'서울',
+                                value:'seoul',
+                            },
+                            {
+                                name:'대전',
+                                value:'daejeon',
+                            },
+                            {
+                                name:'부울경',
+                                value:'buk',
+                            },
+                            {
+                                name:'구미',
+                                value:'gumi',
+                            },
+                            {
+                                name:'광주',
+                                value:'gwangju',
+                            },
+                            
+                        ]
+                    }
+                },
+            });
+        </script>
+    </body>
+</html>

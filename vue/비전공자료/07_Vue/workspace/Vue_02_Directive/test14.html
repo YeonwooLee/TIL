@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue Watch</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div>
+        <input type="text" v-model="msg" /> <br />
+        <p>원본 : {{msg}}</p>
+        <p>역순 : {{reversedMsg}}</p>
+      </div>
+    </div>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            msg: "hello",
+            reversedMsg: "",
+          };
+        },
+        watch: {
+          msg(newVal) {
+            this.reversedMsg = newVal.split("").reverse().join("");
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

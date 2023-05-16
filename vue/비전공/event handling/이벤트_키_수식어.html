@@ -1,0 +1,43 @@
+<!-- v-on 디렉티브를 사용하여 DOM 이벤트를 듣고 트리거 될 때
+javaScript를 실행 할 수 있음 -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- 이벤트 키 수식어 -->
+            <h2>이름 검색</h2>
+            <input type="text" v-model="name" placeholder="이름 입력" id="search"/>
+            <button @click="send">전송</button><br/>
+            
+            <input type="text" v-model="name" placeholder="모든키 키업 리스너" @keyup="send"/>
+            <input type="text" v-model="name" placeholder="13번키(엔터) 키업 이벤트 리스너" @keyup.13="send"/>
+            <input type="text" v-model="name" placeholder="엔터키 키업 리스너" @keyup.enter="send"/>
+            
+            
+        </div>
+
+        
+        <script>
+            const app = new Vue({
+                el:'#app', 
+                data(){
+                    return{
+                        name:'opp',
+                    }
+                },
+                methods:{
+                    send(){
+                        //document.querySelector("#search").value
+                        alert(this.name);
+                    },
+                },
+            });
+
+        </script>
+    </body>
+</html>

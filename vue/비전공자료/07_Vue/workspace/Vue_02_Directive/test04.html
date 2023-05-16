@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- v-bind -->
+      <div id="idValue">v-bind연습1</div>
+      <div v-bind:id="idValue">v-bind연습2</div>
+      <div :id="idValue">v-bind연습3</div>
+
+      <button v-bind:[key]="btnId">버튼</button>
+      <button :[key]="btnId">버튼</button>
+    </div>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            idValue: "test-id",
+            key: "class",
+            btnId: "test-btn",
+          };
+        },
+      });
+    </script>
+  </body>
+</html>

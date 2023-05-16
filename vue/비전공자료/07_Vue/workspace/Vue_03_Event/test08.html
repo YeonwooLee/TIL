@@ -1,0 +1,64 @@
+<!-- 마숙 -->
+<!-- 투두리스트에 체크 완료를 클래스 바인딩을 이용해서 처리해보자... -->
+<!-- 직접작성해보시구... 예시답안은 금일 자정이전에 업로드 예정 -->
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue</title>
+    <style>
+      .done {
+        text-decoration: line-through;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h2>나의 할일</h2>
+      <ol>
+        <li :class="{done: todo.done}" :style="myStyle" v-for="todo in todos">
+          {{todo.todo}}
+          <button @click="complete(todo)">완료</button>
+        </li>
+      </ol>
+    </div>
+
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            myStyle: {
+              fontSize: "25px",
+            },
+            todos: [
+              {
+                todo: "보충강의 열심히 듣기",
+                done: false,
+              },
+              {
+                todo: "저녁먹기",
+                done: true,
+              },
+              {
+                todo: "씻기",
+                done: false,
+              },
+              {
+                todo: "복습하기",
+                done: false,
+              },
+            ],
+          };
+        },
+        methods: {
+          complete(todo) {
+            todo.done = !todo.done;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <div>이메일 수신 동의?
+                <input type="checkbox" v-model="email"/>
+            </div>
+            <!-- true, false에서 'Y', 'N'으로 커스텀 -->
+            <div>로봇이니?<input type="checkbox" v-model="robot" true-value="Y" false-value="N"/></div>
+
+
+            <!-- 여러개 바인딩 -->
+            <h2>내가 가고 싶은 여행지 체크해주세요.</h2>
+            <input type="checkbox" id="busan" v-model="checkAreas" value="부산"/>
+            <lablel for="busan">부산</lablel>
+
+            <input type="checkbox" id="japan" v-model="checkAreas" value="일본"/>
+            <lablel for="japan">일본</lablel>
+
+            <p>나는 이번에 여기를 갈거야 ~{{checkAreas}}</p>
+        </div>
+
+        <!--
+            하나의 체크박스일 경우 boolean 값을 표현
+            여러개의 체크박스는 같은 배열을 바인딩
+        -->
+
+
+        
+        <script>
+            const app = new Vue({
+                el:'#app',
+                data(){
+                    return{
+                        email:false,
+                        robot:"Y",
+                        checkAreas:[],
+                    }
+                },
+            });
+        </script>
+    </body>
+</html>

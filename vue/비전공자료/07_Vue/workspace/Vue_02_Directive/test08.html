@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- v-for -->
+      <div>
+        <h2>숫자를 돌려보자</h2>
+        <span v-for="i in 10">{{i}}</span>
+      </div>
+      <div>
+        <h2>이름을 돌려보자</h2>
+        <ul>
+          <li v-for="name in names">{{name}}</li>
+        </ul>
+      </div>
+      <div>
+        <h2>이름을 돌려보자2</h2>
+        <ul>
+          <!-- 순서중요 -->
+          <li v-for="(name, index) in names">{{index+1}} : {{name}}</li>
+        </ul>
+      </div>
+      <div>
+        <h2>객체 배열을 돌려보자</h2>
+        <ul>
+          <li v-for="human in humans">{{human.name}} : {{human["age"]}}세</li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            names: ["최주호", "이세훈", "한장민", "곽형석"],
+            humans: [
+              {
+                name: "허재웅",
+                age: 333,
+              },
+              {
+                name: "곽형석",
+                age: 60,
+              },
+              {
+                name: "최규호",
+                age: 12,
+              },
+              {
+                name: "이세훈",
+                age: 2,
+              },
+            ],
+          };
+        },
+      });
+    </script>
+  </body>
+</html>

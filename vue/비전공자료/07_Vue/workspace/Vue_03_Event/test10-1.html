@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue</title>
+  </head>
+  <body>
+    <div id="app">
+      <div>이메일 수신 동의? <input type="checkbox" v-model="email" /></div>
+      <div>로봇이니? <input type="checkbox" v-model="robot" true-value="Y" false-value="N" /></div>
+    </div>
+
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            email: false,
+            robot: "Y",
+          };
+        },
+      });
+    </script>
+  </body>
+</html>

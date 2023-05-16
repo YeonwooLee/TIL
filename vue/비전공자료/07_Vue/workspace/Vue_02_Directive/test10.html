@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- v-cloak -->
+      <h1>1{{msg}}</h1>
+      <h1 v-cloak>2{{msg}}</h1>
+    </div>
+    <script>
+      setTimeout(function () {
+        const app = new Vue({
+          el: "#app",
+          data() {
+            return {
+              msg: "짝수이다.",
+            };
+          },
+        });
+      }, 3000);
+    </script>
+  </body>
+</html>

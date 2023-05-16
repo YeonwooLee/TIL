@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- 여러개 바인딩 -->
+            <h2>지망하는 캠퍼스를 고르세요.</h2>
+            <!-- multiple 옵션으로 여러개 선택 가능
+                select로 복수 선택을 하는 것은 불편하다
+             -->
+            <select v-model="campus" multiple>
+                <option value="" disabled>선택하세요~</option>
+                <!-- v-model때문에 selected무시됨 -->
+                <option value="seoul" selected>서울</option>
+                <option value="daejeon">대전</option>
+                <option value="buk">부울경</option>
+                <option value="gumi">구미</option>
+                <option value="gwangju">광주</option>
+            </select>
+            
+            <div v-if="campus">
+                <p>나의 캠퍼스는 ~{{campus}}</p>
+            </div>
+        </div>
+
+
+
+
+        
+        <script>
+            const app = new Vue({
+                el:'#app',
+                data(){
+                    return{
+                        campus  :[],
+                    }
+                },
+            });
+        </script>
+    </body>
+</html>

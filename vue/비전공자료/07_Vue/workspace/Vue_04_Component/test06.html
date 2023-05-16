@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue</title>
+  </head>
+  <body>
+    <div id="app">
+      <h2>부모컴포넌트</h2>
+      <!-- 정적 props -->
+      <child-view propsdata="정적인메시지"></child-view>
+
+      <!-- 동적 props -->
+      <input type="text" v-model="msg" />
+      <child-view :propsdata="msg"></child-view>
+    </div>
+
+    <template id="child-view">
+      <div>
+        <h3>자식컴포넌트</h3>
+        <div>{{propsdata}}</div>
+      </div>
+    </template>
+
+    <script>
+      Vue.component('child-view', {
+        template: '#child-view',
+        props: ['propsdata'],
+      });
+
+      const app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            msg: '',
+          };
+        },
+      });
+    </script>
+  </body>
+</html>

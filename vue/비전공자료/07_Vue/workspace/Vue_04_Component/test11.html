@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue</title>
+  </head>
+  <body>
+    <div id="app">
+      <header-nav></header-nav>
+      <main-content></main-content>
+      <footer-bar></footer-bar>
+    </div>
+
+    <script type="module">
+      import HeaderNav from './component/HeaderNav.js';
+      import MainContent from './component/MainContent.js';
+      import FooterBar from './component/FooterBar.js';
+
+      const app = new Vue({
+        el: '#app',
+        components: {
+          HeaderNav,
+          MainContent,
+          FooterBar,
+        },
+      });
+    </script>
+  </body>
+</html>

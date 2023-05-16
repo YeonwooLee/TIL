@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue</title>
+  </head>
+  <body>
+    <div id="app">
+      <h2>부모컴포</h2>
+      <child-view
+        area="속초"
+        :msg="msg[parseInt(Math.random()*5)]"
+      ></child-view>
+      <child-view
+        area="일본"
+        :msg="msg[parseInt(Math.random()*5)]"
+      ></child-view>
+      <child-view
+        area="수유"
+        :msg="msg[parseInt(Math.random()*5)]"
+      ></child-view>
+      <child-view
+        area="부산"
+        :msg="msg[parseInt(Math.random()*5)]"
+      ></child-view>
+      <child-view
+        area="통영"
+        :msg="msg[parseInt(Math.random()*5)]"
+      ></child-view>
+    </div>
+
+    <template id="child-view">
+      <div>
+        <h3>{{area}} 지역</h3>
+        <div>{{msg}}</div>
+      </div>
+    </template>
+
+    <script>
+      Vue.component('child-view', {
+        template: '#child-view',
+        props: ['area', 'msg'],
+      });
+
+      const app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            msg: [
+              '오향족발먹으로',
+              '고양이를 보러',
+              '경섭이가 놀러가서',
+              '라면먹으로',
+              '예비군하러',
+            ],
+          };
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- v-model : 중국어, 일본어, 한국어 .... 바로 업뎃이 안됨
+           해결방법 : input 이벤트를 이용해서 처리를 해야함...
+      -->
+      <!-- value 속성 / checked / selected 무시됨. -->
+      <input type="text" value="초기값" v-model="msg" />
+      <div>{{msg}}</div>
+    </div>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            msg: "초기값이라네",
+          };
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue</title>
+  </head>
+  <body>
+    <div id="app">
+      <my-comp></my-comp>
+    </div>
+
+    <template id="mycomponent">
+      <div>
+        <h2>{{msg}}</h2>
+      </div>
+      <!-- <div>얍</div> 이거 안돼 최상위 태그가 하나 있어야한다. -->
+    </template>
+
+    <script>
+      //   컴포넌트에서 객체형태로는 data를 사용하면 안된다.
+      //   Vue.component('my-comp', {
+      //     template: '#mycomponent',
+      //     data: {
+      //       msg: 'hello',
+      //     },
+      //   });
+      Vue.component('my-comp', {
+        template: '#mycomponent',
+        data() {
+          return {
+            msg: 'hello',
+          };
+        },
+      });
+
+      const app = new Vue({
+        el: '#app',
+      });
+    </script>
+  </body>
+</html>

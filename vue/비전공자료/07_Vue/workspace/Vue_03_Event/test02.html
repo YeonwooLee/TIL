@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- 이벤트 메소드 처리 -->
+      <button @click="greet">인사</button>
+    </div>
+
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            name: "OPP",
+          };
+        },
+        methods: {
+          //event라고 하는것은 넘기지 않아도 괜찮아~~
+          greet(event) {
+            alert(`${this.name}님 하이요`);
+            event.target.innerText = "얍";
+            console.log(event);
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

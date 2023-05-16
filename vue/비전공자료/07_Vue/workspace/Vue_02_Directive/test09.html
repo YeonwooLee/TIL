@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- v-on -->
+      <h2>{{count}}</h2>
+      <button v-on:click="count+=1">버튼</button>
+      <button v-on:click="plus">버튼</button>
+      <button @click="plus">버튼</button>
+    </div>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            count: 1,
+          };
+        },
+        methods: {
+          plus() {
+            this.count++;
+            console.log("메소드 실행");
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

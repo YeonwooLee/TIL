@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- $refs, ref   -->
+      <h2>이름 등록</h2>
+      <input type="text" v-model="name" placeholder="이름 입력" ref="name" />
+      <!-- 이름중복체크 -->
+      <button @click="check">중복쳌</button>
+      <button @click="send">전송</button><br />
+    </div>
+
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            name: "OPP",
+          };
+        },
+        methods: {
+          send() {
+            alert(`${this.name} 등록`);
+          },
+          check() {
+            //만약에 통과하지 못했다면 다시 input태그에 바로 작성이 가능하도록 활성화가 되면 좋겠다.
+            // this.name : 요걸 이용해서 우리의 back 서버로 요청을 날리겠다.
+            //입력을 하지 않았을 때만 판단~~ / 실제로는 서버로 요청을 날려서.. 그 여부 또한 확인해주는게 좋음
+            if (this.name.length === 0) {
+              alert("아이디를 입력해주세요.");
+              this.$refs.name.focus();
+              console.log(this.$refs);
+              console.log(this.$refs.name);
+              return;
+            }
+            alert("아이디 중복쳌 성공");
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

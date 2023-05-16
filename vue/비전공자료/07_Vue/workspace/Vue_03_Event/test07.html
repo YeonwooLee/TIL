@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue</title>
+    <style>
+      div {
+        width: 200px;
+        height: 200px;
+        border: 1px solid black;
+      }
+      .dark {
+        background-color: black;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div v-bind:class="myclass">얍</div>
+      <div :class="{dark: isDark}">얍</div>
+      <button @click="toggle">다크모드전환</button>
+    </div>
+
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            myclass: {
+              dark: true,
+              //   white: true,
+            },
+            isDark: false,
+          };
+        },
+        methods: {
+          toggle() {
+            this.isDark = !this.isDark;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

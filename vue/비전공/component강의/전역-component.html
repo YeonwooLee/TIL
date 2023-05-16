@@ -1,0 +1,46 @@
+<!-- 
+    Vue Component는 Vue Instance이기도 하므로
+    루트에서만 사용하는 옵션(el,data,methods)을 제외하고 모든 옵션 객체 사용가능
+ -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <!-- 전역 컴포넌트 -->
+        <div id="app">
+            <my-global></my-global>
+            <my-global></my-global>
+            <my-global></my-global>
+        </div>
+        <div id="app2">
+            <my-global></my-global>
+        </div>
+
+
+
+
+
+        
+        <script>
+            // 전역컴포넌트를 등록하려면 Vue.COmponent(tagName(컴포넌트 이름),options)를 사용
+            Vue.component('my-global',{
+                template:'<h2>전역 컴포넌트</h2>',
+            });
+
+            const app = new Vue({
+                el: '#app',
+                data(){
+                    return {};
+                },
+            });
+            const app2 = new Vue({
+                el: '#app2',
+            });
+
+        </script>
+    </body>
+</html>

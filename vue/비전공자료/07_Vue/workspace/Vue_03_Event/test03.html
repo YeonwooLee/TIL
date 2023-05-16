@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- 이벤트 메소드 인자 넘겨보기  -->
+      <button @click="greet1('봉준르')">인사</button>
+      <button @click="greet2($event, '봉준르')">인사</button>
+    </div>
+
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            name: "OPP",
+          };
+        },
+        methods: {
+          greet1(e, msg) {
+            alert(`${this.name}님 ${msg}`);
+            console.log(e);
+          },
+          greet2(e, msg) {
+            alert(`${this.name}님 ${msg}`);
+            console.log(e);
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+<!-- v-on 디렉티브를 사용하여 DOM 이벤트를 듣고 트리거 될 때
+javaScript를 실행 할 수 있음 -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- 이벤트 메소드 인자 넘겨보기 -->
+            <button @click="greet1('봉준르')">인사</button>
+            <button @click="greet2($event,'봉준르')">인사</button>
+        </div>
+
+        
+
+        
+        <script>
+            const app = new Vue({
+                el:'#app', 
+                data(){
+                    return{
+                        name:'OPP',
+                    };
+                },
+                methods:{
+                    greet1(msg){
+                        alert(`${this.name}님 ${msg}`);
+                        console.log(event);
+                    },
+                    greet2(e,msg){
+                        alert(`${this.name}님 ${msg}`);
+                        console.log(e);
+                    },
+                },
+            });
+
+        </script>
+    </body>
+</html>

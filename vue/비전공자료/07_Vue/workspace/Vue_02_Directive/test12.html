@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue Filter</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div>
+        <input type="text" v-model="msg" />
+      </div>
+      <div>
+        <!-- 적용하고 싶은 필더가 있다면 | 기호를 이용하자 -->
+        <h3>{{msg | count1}}</h3>
+        <!-- 필터는 체이닝도 가넝 -->
+        <h3>{{msg | count2('입력바람') | count3}}</h3>
+      </div>
+    </div>
+    <script>
+      // 전역필터
+      Vue.filter("count1", (val) => {
+        if (val.length === 0) return;
+        return `${val} : ${val.length}글자`;
+      });
+
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            msg: "",
+          };
+        },
+        filters: {
+          //지역필터
+          count2(val, alternative) {
+            if (val.length === 0) return alternative;
+            return `${val} : ${val.length}`;
+          },
+          count3(val) {
+            return `${val} 글자입니다.`;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

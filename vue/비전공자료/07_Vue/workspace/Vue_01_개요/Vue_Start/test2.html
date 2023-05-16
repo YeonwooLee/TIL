@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue Start</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h2>{{msg}}</h2>
+    </div>
+
+    <script>
+      //Vue 객체(인스턴스)를 생성
+      //data : 사용할 데이터를 지정
+      //1. 객체 형태
+      //2. 함수 형태 (컴포넌트를 이용하면 무조건 이렇게 만들어야함.)
+      const app = new Vue({
+        el: '#app', //CSS선택자
+        //1. 객체 형태
+        // data: {
+        //   msg: 'hello ssafy!',
+        // },
+        //2-1. 함수형태
+        // data: function () {
+        //   return {
+        //     msg: 'hello ssafy!!',
+        //   };
+        // },
+        //2-2. 함수형태 (ES6+)
+        data() {
+          return {
+            msg: 'hello ssafy!!!',
+          };
+        },
+      });
+    </script>
+  </body>
+</html>

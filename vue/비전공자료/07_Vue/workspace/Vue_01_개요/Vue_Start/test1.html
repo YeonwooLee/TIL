@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue Start</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h2>{{msg}}</h2>
+    </div>
+
+    <script>
+      //Vue 객체(인스턴스)를 생성
+      //el : 뷰객체를 마운트(연결) 엘리먼트를 설정
+      //1. CSS 선택자
+      //2. HTML 요소를 직접가지고와서 선택
+      const content = document.getElementById('app');
+
+      const app = new Vue({
+        // el: '#app', //CSS선택자
+        el: content, //HTML 요소 자체를 넣겠다.
+        data: {
+          msg: 'hello ssafy!',
+        },
+      });
+    </script>
+  </body>
+</html>

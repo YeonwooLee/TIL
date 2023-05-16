@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- v-if/else -->
+      <h2>범퍼카</h2>
+      나이 : <input type="number" v-model="age" /> <br />
+      <div>
+        요금 :
+        <span v-if="age < 10">10만원</span>
+        <span v-else-if="age < 20">50만원</span>
+        <span v-else-if="age == 27">공쨔</span>
+        <span v-else>만원</span>
+      </div>
+    </div>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            age: 10,
+          };
+        },
+      });
+    </script>
+  </body>
+</html>

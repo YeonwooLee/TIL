@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- 여러개 바인딩 -->
+            <h2>현재 당신이 속해있는 캠퍼스를 고르세요.</h2>
+            <input type="radio" id="seoul" v-model="campus" value="seoul"/>
+            <label for="seoul">서울</label>
+
+            <input type="radio" id="daejeon" v-model="campus" value="daejeon"/>
+            <label for="daejeon">대전</label>
+
+            <input type="radio" id="buk" v-model="campus" value="buk"/>
+            <label for="buk">부울경</label>
+
+            <input type="radio" id="gumi" v-model="campus" value="gumi"/>
+            <label for="gumi">구미</label>
+
+            <input type="radio" id="gwangju" v-model="campus" value="gwangju"/>
+            <label for="gwangju">광주</label>
+
+
+            <p>나는 이번에 여기를 갈거야 ~{{campus}}</p>
+        </div>
+
+        <!--
+            하나의 체크박스일 경우 boolean 값을 표현
+            여러개의 체크박스는 같은 배열을 바인딩
+        -->
+
+
+        
+        <script>
+            const app = new Vue({
+                el:'#app',
+                data(){
+                    return{
+                        campus  :"",
+                    }
+                },
+            });
+        </script>
+    </body>
+</html>

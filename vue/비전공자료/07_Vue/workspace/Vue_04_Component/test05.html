@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue</title>
+  </head>
+  <body>
+    <div id="app">
+      <count-view></count-view>
+      <count-view></count-view>
+    </div>
+
+    <template id="count-view">
+      <div>
+        <h2>{{count}}</h2>
+        <button @click="count++">클릭</button>
+      </div>
+    </template>
+
+    <script>
+      Vue.component('count-view', {
+        template: '#count-view',
+        data() {
+          return {
+            count: 0,
+          };
+        },
+      });
+
+      const app = new Vue({
+        el: '#app',
+      });
+    </script>
+  </body>
+</html>

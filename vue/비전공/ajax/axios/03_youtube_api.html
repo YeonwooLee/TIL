@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Youtube 검색</h1>
+    <input type="text" id="search" placeholder="검색어를 입력해주세요."/>
+    <button id="search-btn">검색</button>
+    <hr/>
+    <h2>검색 결과</h2>
+    <ul id="list"></ul>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const URL = "https://www.googleapis.com/youtube/v3/search";
+        const API_KEY = "AIzaSyDgDQ5PVcmKrYoTh4M47FylmEwaxLNiJnQ";
+
+        const btn = document.querySelector("#search-btn");
+
+        btn.addEventListener("click", ()=>{
+            const value = document.querySelector("#search").value;
+
+            axios({
+                url:URL,
+                method:"GET",
+                params:{
+                    key: API_KEY,
+                    part: "snippet",
+                    q:value,
+                    type:"video",
+                    maxResults:20,
+                },
+            })//여까지가 요청
+                .then((res)=>{
+                    console.log("첫번째 response");
+                    console.log(res);
+                    return res.data.items;
+                })
+                .then((res)=>{
+                    console.log("두번째");
+
+                    const ulTag = document.querySelector("#list");
+                    for(let i=0;i<res.length;i++){
+                        let liTag = document.createElement("li");
+                        let imgTag = document.createElement("img");
+
+                        imgTag.src = res[i].snippet.thumbnails.default.url;
+                        liTag.appendChild(imgTag);
+                        ulTag.appendChild(liTag);
+                    }
+                })
+                .catch((err)=>{
+                    console.log(err);
+                });
+        });
+    </script>
+</body>
+</html>

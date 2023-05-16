@@ -1,0 +1,70 @@
+<!-- 
+    Vue Component는 Vue Instance이기도 하므로
+    루트에서만 사용하는 옵션(el,data,methods)을 제외하고 모든 옵션 객체 사용가능
+ -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <!-- 코딩/알고리즘 -->
+        <!-- 총투표수 -->
+        <div id="app">
+            <h2>여러분의 선호도는~~~</h2>
+            <h3>총 투표수는 : {{total}} </h3>
+            <child-view title="coding" @add-count="addTotalCount"></child-view>
+            <child-view title="알고리즘" @add-count="addTotalCount"></child-view>
+        </div>
+
+        <!-- 자식 컴포넌트를 정의 해보자 -->
+        <template id="child-view">
+            <div>
+                <h2>{{title}}의 득표수는 {{count}}</h2>
+                <button @click="addCount">투표</button>
+            </div>
+        </template>
+
+
+
+
+
+
+        
+        <script>
+
+            Vue.component('child-view',{
+                template:'#child-view',
+                data(){
+                    return{
+                        count:0,
+                    };
+                },
+                props:['title'],
+                methods: {
+                    addCount(){
+                        this.count++;
+                        //부모에게 이벤트 전송
+                        this.$emit('add-count')
+                    }
+                }
+
+            })
+            const app = new Vue({
+                el: '#app',
+                data(){
+                    return {
+                        total:0,
+                    };
+                },
+                methods: {
+                    addTotalCount(){
+                        this.total+=1;
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,56 @@
+<!-- 
+    data는 반드시 함수여야 한다.
+    data 객체를 공유하는 문제를 막고 새로운 데이터 객체를 반환해서 해결한다
+ -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <!-- 지역 컴포넌트 -->
+        <div id="app">
+            <count-view></count-view>
+            <count-view></count-view>
+        </div>
+
+
+
+
+
+
+
+
+        <template id="count-view">
+            <div>
+                <h2>{{count}}</h2>
+                <button @click="count++">클릭</button>
+            </div>
+            <!-- <div>야</div> 이건 안돼, 최상위 태그가 하나 있어야 한다 -->
+        </template>
+  
+        <script>
+            //객체로 해두고 반환하니까 공유돼서 같이 증가하는 문제발생!!!!
+            // let data = {
+            //     count:0,
+            // };
+
+            Vue.component('count-view',{
+                template:'#count-view',
+                data(){
+                    return {
+                        count:0,
+                    }
+                },
+            });
+
+            const app = new Vue({
+                el:'#app'
+            });
+
+
+        </script>
+    </body>
+</html>

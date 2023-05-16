@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- javascript 표현식을 사용해보자. -->
+      <div>{{num+1}}</div>
+      <div>{{msg+'하하'}}</div>
+      <div>{{msg.split("").reverse().join("")}}</div>
+      <div>{{num > 10 ? num : num**2}}</div>
+      <!-- 콧수염방식말고 똑같지만 v-directive -->
+      <div v-text="msg + '이거된다'"></div>
+    </div>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            num: 7,
+            msg: "안녕하세요 후후",
+          };
+        },
+      });
+    </script>
+  </body>
+</html>

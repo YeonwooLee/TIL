@@ -1,0 +1,37 @@
+<!-- 
+    Vue Component는 Vue Instance이기도 하므로
+    루트에서만 사용하는 옵션(el,data,methods)을 제외하고 모든 옵션 객체 사용가능
+ -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <!-- 코딩/알고리즘 -->
+        <!-- 총투표수 -->
+        <div id="app">
+            <!-- 등록된 모듈의 케밥케이스 -->
+            <header-nav></header-nav>
+            <main-content></main-content>
+            <footer-bar></footer-bar>
+        </div>
+
+        <script type="module">
+            import HeaderNav from '../component자료/HeaderNav.js';
+            import MainContent from '../component자료/MainContent.js';
+            import FooterBar from '../component자료/FooterBar.js';
+            const app = new Vue({
+                el: '#app',
+                components:{
+                    HeaderNav,
+                    FooterBar,
+                    MainContent,
+
+                }
+            });
+        </script>
+    </body>
+</html>

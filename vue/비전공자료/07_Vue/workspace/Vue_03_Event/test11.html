@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue</title>
+  </head>
+  <body>
+    <div id="app">
+      <div>
+        <h2>현재 당신이 속해있는 캠퍼스를 고르세요</h2>
+        <input type="radio" id="seoul" v-model="campus" value="seoul" />
+        <label for="seoul">서울</label>
+        <input type="radio" id="daejeon" v-model="campus" value="daejeon" />
+        <label for="daejeon">대전</label>
+        <input type="radio" id="buk" v-model="campus" value="buk" />
+        <label for="buk">부울경</label>
+        <input type="radio" id="gumi" v-model="campus" value="gumi" />
+        <label for="gumi">구미</label>
+        <input type="radio" id="gwangju" v-model="campus" value="gwangju" />
+        <label for="gwangju">광주</label>
+
+        <p>나의 캠퍼스는 `~ {{campus}}</p>
+      </div>
+    </div>
+
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            campus: "",
+          };
+        },
+      });
+    </script>
+  </body>
+</html>

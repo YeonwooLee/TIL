@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- v-show : 항상 렌더링 되어있음. CSS display 속성 -->
+      <h1 v-show="ok">하위</h1>
+      <input type="text" v-model="msg" />
+      <button v-show="msg.trim().length !== 0">검색</button>
+    </div>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            ok: false,
+            msg: "hello",
+          };
+        },
+      });
+    </script>
+  </body>
+</html>

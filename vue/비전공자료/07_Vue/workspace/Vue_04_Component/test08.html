@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue</title>
+  </head>
+  <body>
+    <div id="app">
+      <h2>부모컴포</h2>
+      <child-view :user="person"></child-view>
+    </div>
+
+    <template id="child-view">
+      <div>
+        <h3>{{user.name}} 님의 신상명세서입니다. 킬러님</h3>
+        <div>나이 : {{user.age}}세</div>
+        <div>이멜 : {{user.email}}</div>
+      </div>
+    </template>
+
+    <script>
+      Vue.component('child-view', {
+        template: '#child-view',
+        props: ['user'],
+      });
+
+      const app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            person: {
+              name: '유지나',
+              age: 20,
+              email: 'ssafy.com',
+            },
+          };
+        },
+      });
+    </script>
+  </body>
+</html>

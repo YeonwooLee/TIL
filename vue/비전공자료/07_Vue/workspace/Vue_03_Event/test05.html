@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- 이벤트 키 수식어   -->
+      <h2>이름 검색</h2>
+      <input type="text" v-model="name" placeholder="이름 입력1" id="search" />
+      <button @click="send">전송</button><br />
+      <input type="text" v-model="name" placeholder="이름 입력2" @keyup="send" /><br />
+      <input type="text" v-model="name" placeholder="이름 입력3" @keyup.13="send" /><br />
+      <input type="text" v-model="name" placeholder="이름 입력3" @keyup.enter="send" /><br />
+    </div>
+
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            name: "OPP",
+          };
+        },
+        methods: {
+          send() {
+            // document.querySelector("#search").value
+            alert(this.name);
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

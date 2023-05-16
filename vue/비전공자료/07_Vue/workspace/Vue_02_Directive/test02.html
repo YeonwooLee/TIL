@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vue</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- 보간법을 사용해보자. (콧수염 방식)-->
+      <h2>{{msg}}</h2>
+      <!-- v-html : 실제로 코드를 HTML로 해석해버린다. -->
+      <h2 v-html="msg"></h2>
+      <!-- v-text -->
+      <h2 v-text="msg"></h2>
+    </div>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            msg: '<h2 style="color:red">이글은 빨간색입니다.</h2>',
+          };
+        },
+      });
+    </script>
+  </body>
+</html>
