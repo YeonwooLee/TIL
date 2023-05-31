@@ -45,7 +45,7 @@ public class SignalEveningController {
         log.info("stockList={}",stockList);
 
         LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd_HH_mm_ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd_HH_mm_ss.pdf");
         String formattedDateTime = now.format(formatter);
         String fullPath = fileDir + formattedDateTime;
 
