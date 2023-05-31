@@ -143,6 +143,18 @@ public class StockService {
         }
         return finalResult;
     }
+    //오늘의 핫한 주식 이름만(이브닝리포트 변환용)
+    public List<String> makeTodayHotStockOnlyName(int riseRate, long hundredMillion){
+        log.info("todayHot >>> riseRate = {}, hundredMillion = {}",riseRate, hundredMillion);
+        List<Stock> stocks = getLatestStock();//
+        List<String> finalResult = new ArrayList<>(); //스트링 포멧 맞추기
+        for(Stock st : stocks){
+            if(st.getStockTransactionAmount()>=hundredMillion && st.getStockRise()>=riseRate){
+                finalResult.add(st.getStockName());
+            }
+        }
+        return finalResult;
+    }
 
     //마지막 검색 시간
     public String getLastTime(){

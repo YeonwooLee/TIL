@@ -42,6 +42,8 @@ dependencies {
 	implementation 'org.seleniumhq.selenium:selenium-java:4.1.0'
 	implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.2.1'
 
+	// https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox
+	implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.24'
 }
 
 tasks.named('test') {
