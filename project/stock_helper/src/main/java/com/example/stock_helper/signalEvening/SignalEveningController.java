@@ -22,7 +22,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class SignalEveningController {
-    private final StockService stockService;
+    private final ReadingSignalEvening readingSignalEvening;
 
     @Value("${file.dir}")
     private String fileDir;
@@ -38,20 +38,16 @@ public class SignalEveningController {
             redirectAttributes) throws IOException {
         log.info("signalEvening 폼 전송");
         MultipartFile file = form.getAttachFile();
-        int stockRise = form.getStockRise();
-        int stockTransactionAmount = form.getStockTransactionAmount();
-        log.info("stockRise={}, 거래대금={}",stockRise,stockTransactionAmount);
-        List<String> stockList = stockService.makeTodayHotStockOnlyName(stockRise,stockTransactionAmount*100000000);
-        log.info("stockList={}",stockList);
+
 
         LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd_HH_mm_ss.pdf");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd_HH_mm_ss");
         String formattedDateTime = now.format(formatter);
-        String fullPath = fileDir + formattedDateTime;
+        String fullPath = fileDir + formattedDateTime+".pdf";
 
         file.transferTo(new File(fullPath));
 
-        String result = ReadingSignalEvening.parsing(fullPath,stockList);
+        String result = readingSignalEvening.parsing(fullPath,form);
 
         return result;
     }
