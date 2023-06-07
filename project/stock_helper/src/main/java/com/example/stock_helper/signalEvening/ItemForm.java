@@ -5,7 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 public class ItemForm {
     private int stockRise;//상승률
-    private int stockTransactionAmount;//거래대금
+    private long stockTransactionAmount;//거래대금
     private MultipartFile attachFile;//이브닝리포트
     private boolean writeDate;//날짜표기할껀지
+    private boolean writeStockName;//명시적 주식명 표기 할껀지
 }

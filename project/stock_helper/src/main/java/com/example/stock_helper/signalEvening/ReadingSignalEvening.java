@@ -24,7 +24,8 @@ public class ReadingSignalEvening {
         //make path that platform-independent
         // Path filePath = Paths.get("C:","PdfBox_Examples","my_doc.pdf");
         int stockRise = form.getStockRise();
-        int stockTransactionAmount = form.getStockTransactionAmount();
+        long stockTransactionAmount = form.getStockTransactionAmount();
+
         log.info("stockRise={}, 거래대금={}",stockRise,stockTransactionAmount);
         List<String> stockList = stockService.makeTodayHotStockOnlyName(stockRise,stockTransactionAmount*100000000);
         log.info("stockList={}",stockList);
@@ -51,14 +52,21 @@ public class ReadingSignalEvening {
         //2. 오늘의 주식 리스트
 
         //파싱
-        String after = extractCore(before, stockList,writeDate);
+        String after = extractCore(before, stockList,writeDate,form);
         System.out.println("시작");
         // System.out.println(after);
 
         return after;
     }
 
-    String extractCore(String[] before, List<String> stockList, boolean writeDate){
+    String extractCore(String[] before, List<String> stockList, boolean writeDate, ItemForm form){
+        //시그널 이브닝에 없는 애들 체크용
+        List<String> notInSignalEvening = new ArrayList<>();
+        for(String s:stockList){
+            notInSignalEvening.add(s);
+        }
+
+
         //결과
         String res = "";
         //key: 테마명
@@ -79,8 +87,11 @@ public class ReadingSignalEvening {
                 //문단 추가 모드
 
                 temp+=cur+"\n</br>";
+                // temp+=cur;//줄변경 없앰 과정에서 추가
+                
                 //빈 줄 만나면 문단 추가 모드 종료
                 if(cur.length()==2) {
+                    temp+="</br></br></br>";//줄변경 없앰 과정에서 추가
                     isAppendMode=false;
                     map.get(curTheme).add(temp);
                 }
@@ -92,15 +103,33 @@ public class ReadingSignalEvening {
                     //map에 없는 테마면 넣는다
                     map.putIfAbsent(cur,new ArrayList<>());
                     curTheme = cur;//테마설정
-                }else if(isHotStock(cur,stockList)){
+                }else if(isHotStock(cur,stockList,notInSignalEvening).isContain){
                     //stockList의 원소 중에 cur의 내용에 포함되는 원소가 있다면
+
                     temp=cur+"\n</br>";//temp를 현재행으로 초기화
+
+                    //내가 문단 시작이 아닌 경우 앞부분 추가
+                    int t = i;
+                    while(--t>=0){
+                        String back = before[t];
+                        if(isTheme(back) || back.length()==2) break;//테마명이나 공백 만나면 종료
+                        temp = back+temp;
+                    }
+
+
+
                     isAppendMode=true;//문단 추가 모드 실행
                     if(writeDate){//날짜표기체크시
                         LocalDateTime now = LocalDateTime.now();
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                         String formattedDateTime = now.format(formatter);
                         temp = String.format("<h3>%s</h3>%s",formattedDateTime,temp);
+
+                        //TODO writeStockName 추가
+                        if(form.isWriteStockName()){
+                            temp = "주식명="+isHotStock(cur,stockList,notInSignalEvening).stockName+"</br>"+temp;
+                        }
+
                     }
                     
 
@@ -119,6 +148,15 @@ public class ReadingSignalEvening {
                 res+=s;
             }
         }
+        for(int i=notInSignalEvening.size()-1;i>=0;i--){
+            String cur = notInSignalEvening.get(i);
+            if(res.contains(cur)){
+                //결과텍스트에 종목 있으면
+                notInSignalEvening.remove(i);//이브닝에 없는 목록에서 삭제한다
+            }
+        }
+        res+="<h2>시그널이브닝에는 없는 리스트</h2></br></br>";
+        res+=notInSignalEvening.toString();
         return res;
     }
 
@@ -126,15 +164,29 @@ public class ReadingSignalEvening {
         return s.contains("<") && s.contains(">");
     }
 
-    boolean isHotStock(String s, List<String> stockList){
+    IsHotStockResult isHotStock(String s, List<String> stockList, List<String> notInSignalEvening){
+        IsHotStockResult result = new IsHotStockResult();
         for(String stock:stockList){
             if(s.contains(stock)) {
                 // System.out.println("s = " + s);
                 // System.out.println("stock = " + stock);
                 // System.out.println();
-                return true;
+
+                result.isContain = true;
+                result.stockName = stock;
+
+                if(notInSignalEvening.contains(stock)){
+                    notInSignalEvening.remove(stock);
+                }
+                break;
             }
         }
-        return false;
+        return result;
+    }
+
+    static class IsHotStockResult{
+        boolean isContain;
+        String stockName;
+
     }
 }

@@ -25,7 +25,7 @@ public class SignalEveningController {
     private final ReadingSignalEvening readingSignalEvening;
 
     @Value("${file.dir}")
-    private String fileDir;
+    private String fileDir;//application.yaml에 있는 세팅
 
     @GetMapping("/signaleye")
     public String newItem() {
@@ -40,11 +40,13 @@ public class SignalEveningController {
         MultipartFile file = form.getAttachFile();
 
 
+
+        // 파일로 저장
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd_HH_mm_ss");
         String formattedDateTime = now.format(formatter);
+        formattedDateTime = "lastFile";
         String fullPath = fileDir + formattedDateTime+".pdf";
-
         file.transferTo(new File(fullPath));
 
         String result = readingSignalEvening.parsing(fullPath,form);
