@@ -97,11 +97,22 @@ public class StockService {
         List<Stock> stocks = getLatestStock();//
         List<Stock> result = new ArrayList<>();
 
-        for(Stock st : stocks){
-            if(st.getStockTransactionAmount()>=hundredMillion && st.getStockRise()>=riseRate){
-                result.add(st);
+        if(riseRate<0){
+            for(Stock st : stocks){
+                if(st.getStockTransactionAmount()>=hundredMillion && st.getStockRise()<=riseRate){
+                    result.add(st);
+                }
             }
         }
+        else{
+            for(Stock st : stocks){
+                if(st.getStockTransactionAmount()>=hundredMillion && st.getStockRise()>=riseRate){
+                    result.add(st);
+                }
+            }
+        }
+
+
 
         //이름순정렬
         Collections.sort(result, new Comparator<Stock>(){
@@ -148,9 +159,18 @@ public class StockService {
         log.info("todayHot >>> riseRate = {}, hundredMillion = {}",riseRate, hundredMillion);
         List<Stock> stocks = getLatestStock();//
         List<String> finalResult = new ArrayList<>(); //스트링 포멧 맞추기
-        for(Stock st : stocks){
-            if(st.getStockTransactionAmount()>=hundredMillion && st.getStockRise()>=riseRate){
-                finalResult.add(st.getStockName());
+        if(riseRate<0){
+            for(Stock st : stocks){
+                if(st.getStockTransactionAmount()>=hundredMillion && st.getStockRise()<=riseRate){
+                    finalResult.add(st.getStockName());
+                }
+            }
+        }
+        else{
+            for(Stock st : stocks){
+                if(st.getStockTransactionAmount()>=hundredMillion && st.getStockRise()>=riseRate){
+                    finalResult.add(st.getStockName());
+                }
             }
         }
         return finalResult;
