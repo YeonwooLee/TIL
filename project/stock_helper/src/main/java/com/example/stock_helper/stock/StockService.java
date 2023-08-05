@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.*;
 
 import static com.example.stock_helper.telegram.strings.MyErrorMsg.DIFFERENCE_STOCK_COUNT;
@@ -28,10 +29,22 @@ public class StockService {
     private final CybosConnection cybosConnection;
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-    //30분마다 업뎃침
-    @Scheduled(cron = "30 */30 * * * *") //
-    // @Scheduled(cron = "30 */1 * * * *") //
+    //5분마다 업뎃침
+    @Scheduled(cron = "30 */5 * * * *") //5분마다 매 n분30초에 업뎃
+    // @Scheduled(cron = "30 */1 * * * *") //1분마다 매 n분30초에 업뎃
     public void scheduledReportCurrentTime() throws IOException, CybosException {
+        LocalTime currentTime = LocalTime.now();
+        LocalTime startTime = LocalTime.of(8, 14);
+        LocalTime endTime = LocalTime.of(18, 1);
+        log.info("스케줄러 동작 시간: {}",currentTime.toString());
+
+        //장중 시간이 아닌 경우
+        if (!(currentTime.isAfter(startTime) && currentTime.isBefore(endTime))) {
+            // It's between 18:01 and 08:14, so skip execution
+            log.info("시간이 장중이 아닙니다");
+            return;
+        }
+        log.info("주식 정보 업데이트 시작");
         reportCurrentTime();
     }
 
@@ -92,7 +105,7 @@ public class StockService {
         return stocks.get(0);
     }
     //오늘의 핫한 주식
-    public List<String> makeTodayHotStock(int riseRate, long hundredMillion){
+    public List<String> makeTodayHotStock(float riseRate, long hundredMillion){
         log.info("todayHot >>> riseRate = {}, hundredMillion = {}",riseRate, hundredMillion);
         List<Stock> stocks = getLatestStock();//
         List<Stock> result = new ArrayList<>();
@@ -136,9 +149,12 @@ public class StockService {
             long marketCapitalization = stock.getMarketCapitalization()/100000000;
             long dayForeignNetPurchase = stock.getDayForeignNetPurchase();
             long dayInstitutionalNetPurchase = stock.getDayInstitutionalNetPurchase();
-
             //문자열 포멧팅
-            String strStock = String.format(Message.HOT_STOCK_INF.getMsgFormat(),
+            String msgFormat = stockTransactionAmount >= 500?
+                    Message.OVER_500_HOT_STOCK_INF.getMsgFormat()//500억 이상이면 별표시
+                    : Message.HOT_STOCK_INF.getMsgFormat();
+
+            String strStock = String.format(msgFormat,
                     stockName,
                     stockRise,
                     riseRank,
@@ -155,7 +171,7 @@ public class StockService {
         return finalResult;
     }
     //오늘의 핫한 주식 이름만(이브닝리포트 변환용)
-    public List<String> makeTodayHotStockOnlyName(int riseRate, long hundredMillion){
+    public List<String> makeTodayHotStockOnlyName(float riseRate, long hundredMillion){
         log.info("todayHot >>> riseRate = {}, hundredMillion = {}",riseRate, hundredMillion);
         List<Stock> stocks = getLatestStock();//
         List<String> finalResult = new ArrayList<>(); //스트링 포멧 맞추기

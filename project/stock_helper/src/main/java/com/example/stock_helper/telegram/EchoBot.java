@@ -9,11 +9,8 @@ import com.example.stock_helper.telegram.strings.Message;
 import com.example.stock_helper.telegram.strings.MyErrorMsg;
 import com.example.stock_helper.telegram.strings.Order;
 import com.example.stock_helper.util.MyConverter;
-import com.example.stock_helper.util.crawling.MyCrawler;
 import com.example.stock_helper.util.crawling.realCrawler.ZoosikSajun;
-import com.example.stock_helper.util.crawling.realCrawler.ZoosikSajunRepository;
 import com.example.stock_helper.util.crawling.realCrawler.ZoosikSajunService;
-import com.example.stock_helper.util.crawling.realCrawler.ZoosikWangCrawler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -139,7 +136,8 @@ public class EchoBot extends TelegramLongPollingBot {
             msg = "ERROR!";
             try{
                 order = userText.replace(Order.TODAY_HOT_STOCK.getOrderCode(),"");//명령에서 명령코드("!") 제거 -> !float 상승률,int 억
-                msg = TODAY_HOT_STOCK_MSG_HEADER.getMsgFormat() + myConverter.listToMsg(getTodayHotStock(order));
+                List<String> todayHotStock = getTodayHotStock(order);
+                msg = String.format(TODAY_HOT_STOCK_MSG_HEADER.getMsgFormat(),todayHotStock.size()) + myConverter.listToMsg(todayHotStock)+String.format(TODAY_HOT_STOCK_MSG_HEADER.getMsgFormat(),todayHotStock.size());
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -232,7 +230,7 @@ public class EchoBot extends TelegramLongPollingBot {
     //오늘의 핫한주식
     private List<String> getTodayHotStock(String order){//order = "상승률,몇억이상"
         String[] orders = order.split(",");
-        int riseRate = Integer.parseInt(orders[0]);//상승률
+        float riseRate = Float.parseFloat(orders[0]);//상승률
         long hundredMillion = Long.parseLong(orders[1])*100000000;//몇 억 이상인지 찾는용
         List<String> todayHotStocks = stockService.makeTodayHotStock(riseRate,hundredMillion);
         return todayHotStocks;

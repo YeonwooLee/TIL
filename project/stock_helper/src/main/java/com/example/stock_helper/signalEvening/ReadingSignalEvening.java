@@ -23,7 +23,7 @@ public class ReadingSignalEvening {
         boolean writeDate = form.isWriteDate();
         //make path that platform-independent
         // Path filePath = Paths.get("C:","PdfBox_Examples","my_doc.pdf");
-        int stockRise = form.getStockRise();
+        float stockRise = form.getStockRise();
         long stockTransactionAmount = form.getStockTransactionAmount();
 
         log.info("stockRise={}, 거래대금={}",stockRise,stockTransactionAmount);
@@ -86,7 +86,7 @@ public class ReadingSignalEvening {
             if(isAppendMode){
                 //문단 추가 모드
 
-                temp+=cur+"\n</br>";
+                temp+=cur+"\n</br>";//있으면 줄변경 리포트와 맞춤
                 // temp+=cur;//줄변경 없앰 과정에서 추가
                 
                 //빈 줄 만나면 문단 추가 모드 종료
@@ -123,13 +123,12 @@ public class ReadingSignalEvening {
                         LocalDateTime now = LocalDateTime.now();
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                         String formattedDateTime = now.format(formatter);
-                        temp = String.format("<h3>%s</h3>%s",formattedDateTime,temp);
+                        temp = String.format("검색일:%s<br/> %s",formattedDateTime,temp);
 
-                        //TODO writeStockName 추가
-                        if(form.isWriteStockName()){
-                            temp = "주식명="+isHotStock(cur,stockList,notInSignalEvening).stockName+"</br>"+temp;
-                        }
 
+                    }
+                    if(form.isWriteStockName()){
+                        temp = "주식명="+isHotStock(cur,stockList,notInSignalEvening).stockName+"</br>"+temp;
                     }
                     
 

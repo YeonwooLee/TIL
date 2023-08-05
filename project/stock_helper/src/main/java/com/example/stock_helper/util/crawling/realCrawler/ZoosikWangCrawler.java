@@ -18,7 +18,8 @@ public class ZoosikWangCrawler extends Crawler<List<ZoosikSajun>> {
     // private ZoosikSajunRepository zoosikSajunRepository;
 
     public ZoosikWangCrawler(ChromeOptions chromeOption, WebDriver driver,ZoosikSajunRepository zoosikSajunRepository) {
-        super(chromeOption, driver,
+        super(chromeOption,
+                driver,
                 ZoosikWangEnum.SITE_URL.getValue(),
                 ZoosikWangEnum.XPATH_OF_ELEMENT_GROUP.getValue());
         // this.zoosikSajunRepository = zoosikSajunRepository;
@@ -73,32 +74,5 @@ public class ZoosikWangCrawler extends Crawler<List<ZoosikSajun>> {
 
         return zoosikSajun;
     }
-    // @Override
-    // public List<ZoosikWangZoosikSajun> crawling() {
-    //     //원본주식 tag
-    //     WebElement zoosikSajunElement = driver.findElement(By.xpath(xpathOfElementGroup));
-    //     //문자열추출
-    //     String[] zoosikArr = zoosikSajunElement.getText().split("\n");
-    //
-    //
-    //     // Map<String,String> map = new HashMap<>();
-    //     List<ZoosikWangZoosikSajun> zoosikSajun = new ArrayList<>();
-    //
-    //     for(int i=0;i< zoosikArr.length;i++){
-    //         String cur = zoosikArr[i];
-    //         if(!cur.contains(":")) continue;//:없으면 continue;
-    //         String[] keyAndVal = cur.split(":",2);
-    //
-    //         //주식명
-    //         String stockName = keyAndVal[0];
-    //         //테마정리
-    //         List<String> theme= Arrays.stream(keyAndVal[1].replace("/ h",",h").replace(" ","").split(",")).toList();
-    //         //현재주식
-    //         ZoosikWangZoosikSajun curStock = new ZoosikWangZoosikSajun(stockName,theme);
-    //         //사전에 add
-    //         zoosikSajun.add(curStock);
-    //     }
-    //
-    //     return zoosikSajun;
-    // }
+
 }

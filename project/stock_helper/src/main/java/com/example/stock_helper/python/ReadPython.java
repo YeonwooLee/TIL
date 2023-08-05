@@ -45,6 +45,8 @@ public class ReadPython {
 
         BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream(),"UTF-8"));
         String output = in.readLine(); //파이썬 dict 형식으로 출력(print)
+        //스트림 닫기
+        in.close();
         // System.out.println("output = " + output);
         //ERROR 처리
         if(output.contains(PyErrorMsg.NO_STOCK_NAME_ERROR.getMsgFormat())){
